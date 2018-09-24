@@ -1,0 +1,27 @@
+<div class="row" *ngIf='$user | async as user; else loadingUser'>
+  <div class="col-12 col-sm-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h1>Mi perfil</h1>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <h3>Hola, {{ user.name }}!</h3>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-nav-list>
+          <a mat-list-item *ngFor='let link of links' routerLink='/perfil/{{link.route}}' routerLinkActive='active'><h5 style='font-weight: normal'>{{ link.label }}</h5></a>
+        </mat-nav-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-12 col-sm-8">
+    <ng-container [ngSwitch]='action'>
+      <app-profile-personal *ngSwitchCase='"personal"' [user]='user'></app-profile-personal>
+    </ng-container>
+  </div>
+</div>
+<ng-template #loadingUser>
+  <mat-spinner class="col-12 mx-auto"></mat-spinner>
+</ng-template>

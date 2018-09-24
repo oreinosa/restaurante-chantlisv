@@ -1,0 +1,13 @@
+<div class="row">
+	<div class="col-12 mb-4">
+		<input type="file" placeholder='Image' (change)="previewImage($event)"/>
+	</div>
+	<div class="col-12 mb-4">
+		<ng-container *ngIf='imageURL;else noImage'>
+			<img [src]="imageURL" alt="Imagen" class='img-fluid'>
+		</ng-container>
+		<ng-template #noImage>
+			<p>(No image uploaded yet)</p>
+		</ng-template>
+	</div>
+</div>

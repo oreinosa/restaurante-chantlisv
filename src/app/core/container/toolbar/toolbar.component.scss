@@ -1,0 +1,60 @@
+:host {
+  .mat-button, .mat-icon-button{
+    margin: 0 2px;
+    color: white;
+    &:hover:not(#menu-button):not(#app-title),
+    &.active:not(#menu-button):not(#app-title) {
+      // color: gray;
+      background-color: rgba(0,0,0,.05)
+    }
+  }
+  // .mat-button {
+    .mat-icon {
+      margin-right: 3px;
+      vertical-align: middle;
+      color: inherit;
+    }
+  // }
+}
+
+#toolbar {
+  height: 64px;
+  .large-separator{
+    width: 75px;
+  }
+  #app-logo, #avatar-photo{
+    height: 60px;
+  }
+
+  #app-title, #menu-button, #app-logo{
+    color: white;
+    margin-right: 10px;
+  }
+
+  .app-link, .app-action{
+    padding: 0px 7.5px;
+  }
+}
+// .contact-info {
+//   height: 100%;
+//   span,
+//   a, {
+//     margin: 2px 5px;
+//     color: #ef9a9a;
+//     font-size: 75%;
+//   }
+//   .app-action{
+//     cursor: pointer;
+//     text-decoration: none;
+//   }
+
+// }
+.app-action-submenu-label{
+  color: gray;
+  cursor: default!important;
+}
+.sticky {
+  position: fixed;
+  z-index: 99;
+}
+

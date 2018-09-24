@@ -1,0 +1,37 @@
+<!-- <ng-container *ngIf='$user | async as user'> -->
+<mat-card>
+  <!-- <mat-card-header>
+      <mat-card-title>
+        <h2></h2>
+      </mat-card-title>
+    </mat-card-header> -->
+  <mat-card-content>
+    <h4>
+      <b>ID: </b> {{ user.id }}
+    </h4>
+    <h4>
+      <b>Nombre: </b> {{ user.name }}
+    </h4>
+    <h4>
+      <b>Correo electrónico: </b> {{ user.email }}
+    </h4>
+    <h4>
+      <b>Rol: </b> {{ user.role }}
+    </h4>
+    <ng-container *ngIf='user?.workplace;else updateWorkplace'>
+      <h4>
+        <b>Lugar de trabajo: </b> {{ user.workplace }}
+      </h4>
+    </ng-container>
+    <ng-template #updateWorkplace>
+      <h4>
+        <mat-form-field>
+          <mat-select type="text" placeholder="Lugar de trabajo">
+            <mat-option *ngFor='let workplace of $workplaces | async' [value]='workplace.name'>{{ workplace.name }}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </h4>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
+<!-- </ng-container> -->

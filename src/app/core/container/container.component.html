@@ -1,0 +1,31 @@
+<mat-sidenav-container class="sidenav-container" *ngIf='(overlay$ | async) as overlay'>
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="!overlay ? 'dialog' : 'navigation'" mode="over">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row *ngIf='((overlay) === "xs")'>
+        <span id='app-title' style='text-align: center;color:white'>{{ appName }}</span>
+      </mat-toolbar-row>
+      <mat-toolbar-row>
+        <span style='text-align: center;color:white'>Menu</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <!-- <br>
+    <app-avatar [user]='user' *ngIf='user'></app-avatar>
+    <hr> -->
+    <app-sidenav-content [user]='user' [actions]='actions' [links]='links' (action)='onAction($event);drawer.close()' (toggleNav)='drawer.close()'
+      [overlay]='overlay'></app-sidenav-content>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-toolbar [user]='user' [actions]='actions' [links]='links' [appName]='appName' [overlay]='overlay' (toggleNav)='drawer.toggle()'
+      (action)='onAction($event)'></app-toolbar>
+    <div class="container-fluid">
+      <ng-content></ng-content>
+    </div>
+    <!-- <app-footer *ngIf='!(overlay === "xs" || overlay === "sm")'></app-footer> -->
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- <app-toolbar [actions]='actions' [links]='links' [appName]='appName' [overlay]='overlay' (action)='onAction($event)'></app-toolbar>
+<div class="container-fluid">
+  <ng-content></ng-content>
+</div> -->

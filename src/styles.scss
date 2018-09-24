@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files */
+// @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+// @import url('https://fonts.googleapis.com/css?family=Roboto:400,300');
+// @import url("https://fonts.gstatic.com/s/materialicons/v22/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw.woff2");
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #d3d3d3;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+.full-width {
+  width: 100%;
+}
+.hover:hover {
+  cursor: pointer;
+}
+a.mat-button {
+  text-decoration: none;
+}
+.menu-subheader{
+  margin-top: -7.5px;
+}
+button:disabled,
+button[disabled],
+.mat-button:disabled,
+.mat-button[disabled],{
+  cursor: not-allowed!important;
+}
+// a.active.mat-list-item{
+//   background-color: rgba(0,0,0,.14);
+// }
+// a.active.mat-list-item:hover{
+//   background-color: rgba(0,0,0,.1);
+// }

@@ -1,0 +1,35 @@
+<form #f='ngForm' (ngSubmit)='onSubmit(f)'>
+  <h2 mat-dialog-title>Ingresa a tu cuenta</h2>
+  <mat-dialog-content>
+    <!-- <div class="row"> -->
+    <!-- <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto text-center"> -->
+    <mat-form-field>
+      <input matInput type="email" placeholder='Correo electrónico' [(ngModel)]='login.email' name='email' required
+        email [readonly]='f.submitted'>
+      <mat-error *ngIf='f.controls?.email?.invalid && !f.controls?.email?.hasError("email")'>Ingresa tu correo
+        electrónico</mat-error>
+      <mat-error *ngIf='f.controls?.email?.hasError("email")'>Ingresa un correo electrónico válido
+        (usuario@dominio.com)</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" placeholder='Contraseña' [(ngModel)]='login.password' name='password' [readonly]='f.submitted'>
+      <mat-error *ngIf='f.controls?.password?.invalid'>Ingresa tu contraseña</mat-error>
+    </mat-form-field>
+    <!-- </div> -->
+    <!-- </div> -->
+  </mat-dialog-content>
+  <mat-dialog-actions class='mb-1' align='end'>
+    <button mat-button type='submit' [disabled]='f.invalid || f.submitted'>Ingresar</button>
+    <button mat-button mat-dialog-close [disabled]='f.submitted'>Cancelar</button>
+  </mat-dialog-actions>
+  <div class="text-center">
+    <img class='hover my-2' style="height:50px;" src='assets/googlesignin.png' (click)='onAction("google")'>
+  </div>
+  <hr>
+  <div class="text-center">
+    <button type="button" mat-button class='my-2' (click)='onAction("registrarse")'>¿Aún no te has registrado?</button>
+    <br>
+    <button type="button" mat-button class='my-2' (click)='onAction("restablecer-contraseña")'>¿Olvidaste tu
+      contraseña?</button>
+  </div>
+</form>

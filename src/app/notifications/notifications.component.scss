@@ -1,0 +1,48 @@
+@import "src/_colors";
+
+.notification{
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  position: relative;
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: #fafafa;
+}
+.wrapper{
+  // opacity: 0.85;
+  bottom: 20px;
+  right: 20px;
+  position: fixed;
+  min-width: 250px;
+  max-width: 325px;
+  z-index: 1000;
+  float: right;
+}
+/* .icon-wrapper{
+  position: absolute;
+  box-sizing: border-box;
+  top: 30px;
+  right: 35px;
+} */
+.material-icons{
+  font-size: 25px;
+}
+.info {
+  background-color: $primary;
+}
+.secondary {
+  background-color: $accent;
+}
+.success {
+  background-color: $success;
+}
+.warning {
+  background-color: $warn;
+}
+.danger {
+  background-color: $danger;
+}
+.notification-body-text{
+  // font-size: 125%;
+}

@@ -1,0 +1,27 @@
+.mat-toolbar {
+  .salud{
+    width: 100%;
+    color:white;
+    /* The image used */
+    background-image: url("/assets/salud.jpg");
+    opacity: 0.8;
+    /* Full height */
+    height: 100%; 
+      
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+      
+    padding: 50px;
+
+    h3,p{
+      word-break: break-word;
+      white-space:normal;
+      // overflow-wrap: break-word;
+    }
+  }
+  h3 {
+    font: bold 32px Roboto, "Helvetica Neue", sans-serif;
+  }
+}

@@ -1,0 +1,33 @@
+:host {
+  a,
+  span {
+    color: black;
+    &:hover,
+    &.active {
+      color: white;
+    }
+    .mat-icon {
+      margin-right: 5px;
+      vertical-align: middle;
+      color: inherit;
+    }
+  }
+}
+.drop-arrow{
+  position: absolute;
+  right: 15px;
+}
+.sub-menu-item{
+  // position: absolute;
+  // right: 15px;
+  // text-align: right;
+  padding-left: 15%;
+}
+
+a.active{
+ background-color: rgba(0,0,0,.05)
+}
+
+.sidenav-content {
+  padding: 10px 0;
+}

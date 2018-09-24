@@ -1,0 +1,107 @@
+// Import material theming functions
+@import "~@angular/material/theming";
+@include mat-core();
+
+// Copy the palettes from your selected theme (usually theme.scss).
+$app-primary-light: mat-palette($mat-teal, 200);
+$app-primary: mat-palette($mat-teal, 500);
+$app-primary-dark: mat-palette($mat-teal, 700);
+
+$app-accent-light: mat-palette($mat-green, 300);
+$app-accent: mat-palette($mat-green, 400);
+$app-accent-dark: mat-palette($mat-green, 600);
+
+$app-warn-light: mat-palette($mat-orange, 200);
+$app-warn: mat-palette($mat-orange, 400);
+$app-warn-dark: mat-palette($mat-orange, 600);
+
+$app-success-light: mat-palette($mat-light-green, 200);
+$app-success: mat-palette($mat-light-green, 400);
+$app-success-dark: mat-palette($mat-light-green, 600);
+
+$app-danger-light: mat-palette($mat-deep-orange, 200);
+$app-danger: mat-palette($mat-deep-orange, 400);
+$app-danger-dark: mat-palette($mat-deep-orange, 600);
+
+// Create your Sass color vars (will be available in all the project)
+$primary-light: mat-color($app-primary-light);
+$primary: mat-color($app-primary);
+$primary-dark: mat-color($app-primary-dark);
+
+$accent-light: mat-color($app-accent-light);
+$accent: mat-color($app-accent);
+$accent-dark: mat-color($app-accent-dark);
+
+$warn-light: mat-color($app-warn-light);
+$warn: mat-color($app-warn);
+$warn-dark: mat-color($app-warn-dark);
+
+$success-light: mat-color($app-success-light);
+$success: mat-color($app-success);
+$success-dark: mat-color($app-success-dark);
+
+$danger-light: mat-color($app-danger-light);
+$danger: mat-color($app-danger);
+$danger-dark: mat-color($app-danger-dark);
+
+.bg-primary-light {
+  background-color: $primary-light !important;
+  // color: white!important;
+}
+.bg-primary {
+  background-color: $primary !important;
+  // color: white !important;
+}
+.bg-primary-dark {
+  background-color: $primary-dark !important;
+  // color: white !important;
+}
+button.bg-primary:hover,
+button.bg-primary:active,
+button.bg-primary:focus,
+a.bg-primary:hover,
+a.bg-primary:active,
+a.bg-primary:focus {
+  background-color: $primary-light !important;
+  // color: black !important;
+}
+
+.bg-accent-light {
+  background-color: $accent-light !important;
+}
+.bg-accent {
+  background-color: $accent !important;
+}
+.bg-accent-dark {
+  background-color: $accent-dark !important;
+}
+
+.bg-warn-light {
+  background-color: $warn-light !important;
+}
+.bg-warn {
+  background-color: $warn !important;
+}
+.bg-warn-dark {
+  background-color: $warn-dark !important;
+}
+
+.bg-success-light {
+  background-color: $success-light !important;
+}
+.bg-success {
+  background-color: $success !important;
+}
+.bg-success-dark {
+  background-color: $success-dark !important;
+}
+
+.bg-danger-light {
+  background-color: $danger-light !important;
+}
+.bg-danger {
+  background-color: $danger !important;
+}
+.bg-danger-dark {
+  background-color: $danger-dark !important;
+}
