@@ -1,0 +1,44 @@
+<ng-container *ngIf='(menu.id | getMenuProducts | async) as products; else loadingProducts'>
+  <div class="menu-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h2>Precio {{ menu.price | currency }}</h2>
+        </mat-card-title>
+        <mat-card-subtitle>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row menu-products">
+          <div class="col-12 col-md-6 col-xl-5 offset-xl-1" *ngIf='products | productsByCategory:"Principal" as principales'>
+            <h4 class='text-center'>Platos principales</h4>
+            <ul>
+              <li *ngFor='let product of principales'>
+                <h5 [ngClass]='product?.notAvailable ? "not-available" : "available"'>{{ product.name }}</h5>
+              </li>
+            </ul>
+          </div>
+          <div class="col-12 col-md-6 col-xl-5" *ngIf='products | productsByCategory:"Acompañamiento" as acompanamientos'>
+            <ng-container *ngIf='acompanamientos.length; else noAcompanamientos'>
+              <h4 class='text-center'>Acompañamientos</h4>
+              <ul>
+                <li *ngFor='let product of acompanamientos'>
+                  <h5 [ngClass]='product?.notAvailable ? "not-available" : "available"'>{{ product.name }}</h5>
+                </li>
+              </ul>
+            </ng-container>
+            <ng-template #noAcompanamientos>
+              <h4 class='text-center'>Este menú no tiene acompañamientos</h4>
+            </ng-template>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align='end'>
+        <button mat-button type='button' (click)='onSelect()' [disabled]='!menu.available'>Ordenar para {{ menu?.date.toDate().getDay() | dow }}</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ng-container>
+<ng-template #loadingProducts>
+  <mat-spinner class="col-12 mx-auto"></mat-spinner>
+</ng-template>

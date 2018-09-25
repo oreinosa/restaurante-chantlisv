@@ -1,0 +1,42 @@
+<mat-card class='mat-elevation-z0' *ngIf='order'>
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Cancelar orden</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h3>{{ order.id }}</h3>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <h6>
+      <b> Quieres cancelar esta orden?</b>
+    </h6>
+    <p>
+      Para : {{ order.date.for.toDate() | spanishDate }}
+    </p>
+    <p>
+      <b> Precio : {{ order.price | currency }} </b>
+    </p>
+    <p *ngIf='order?.paid?.flag'>
+      <i>Debido a que esta orden ya estaba pagada, se te agregará un crédito de {{ order.price | currency }} a tu cuenta</i>
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <ng-container *ngIf='order?.status as status'>
+      <ng-container *ngIf='order?.paid?.flag;else onlyCancel'>
+        <button mat-button type='button' *ngIf='(status == "Nueva orden" || status == "Cancelado")' (click)='onSubmit("Cancelado (credito)")'>
+          Cancelar y recibir credito
+        </button>
+      </ng-container>
+      <ng-template #onlyCancel>
+        <button mat-button type='button' *ngIf='(status == "Nueva orden")' (click)='onSubmit("Cancelado")'>
+          Cancelar
+        </button>
+      </ng-template>
+    </ng-container>
+    <button type='button' mat-button (click)='onCancel()'>
+      <!-- <mat-icon>edit</mat-icon> -->
+      Atrás
+    </button>
+  </mat-card-actions>
+</mat-card>

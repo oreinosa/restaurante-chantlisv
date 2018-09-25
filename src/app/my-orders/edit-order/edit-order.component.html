@@ -1,0 +1,58 @@
+<mat-card class='mat-elevation-z0'>
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Editando orden</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h3>{{ order?.id }}</h3>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container *ngIf='$menus | async as menus'>
+      <ng-container *ngIf='menus.length && step === 0; else editingOrderTemplate'>
+        <div class="row">
+          <div class="col-12" *ngIf='menus?.length'>
+            <h5 class="text-center">Menús para {{ menus[0].date.toDate() | spanishDate }}</h5>
+          </div>
+          <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto my-2" *ngFor='let menu of menus'>
+            <app-day-menu [menu]='menu' (selected)='onOrderMenu($event)'></app-day-menu>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-template #editingOrderTemplate>
+      <ng-container *ngIf='(selectedMenu.id | getMenuProducts | async) as products'>
+        <ng-container *ngIf='products?.length; else loadingProducts'>
+          <ng-container [ngSwitch]='step'>
+            <app-step-1 [editing]='true' [menu]='selectedMenu' [products]='products' [principal]='editingOrder?.products?.principal'
+              [acompanamientos]='editingOrder?.products?.acompanamientos' (select)='onSelect($event.principal, $event.acompanamientos)'
+              *ngSwitchCase='1'></app-step-1>
+
+            <app-step-2 [editing]='true' [menu]='selectedMenu' [bebida]='editingOrder?.products?.bebida' (select)='onSelectBebida($event)'
+              *ngSwitchCase='2'></app-step-2>
+
+            <app-step-3 [editing]='true' [paid]='order.paid.flag' [previousPrice]='order.price' [menu]='selectedMenu' [principal]='editingOrder?.products?.principal'
+              [acompanamientos]='editingOrder?.products?.acompanamientos' [bebida]='editingOrder?.products?.bebida' (confirm)='onSubmit($event?.tortillas, $event?.total)'
+              *ngSwitchCase='3'></app-step-3>
+
+            <app-step-4 [editing]='true' *ngSwitchCase='4'></app-step-4>
+          </ng-container>
+        </ng-container>
+        <ng-template #loadingProducts>
+          <h2>Cargando productos...</h2>
+        </ng-template>
+      </ng-container>
+    </ng-template>
+    <ng-container *ngIf='!order'>
+      <mat-spinner class="col-12 mx-auto"></mat-spinner>
+    </ng-container>
+  </mat-card-content>
+  <mat-card-actions *ngIf='step === 0' align='center'>
+    <button mat-button type='button' routerLink='../../' [disabled]='!order'>
+      Volver a detalles de la orden
+    </button>
+    <button mat-button type='button' (click)='onCancel()' [disabled]='!order'>
+      Volver a mis ordenes
+    </button>
+  </mat-card-actions>
+</mat-card>

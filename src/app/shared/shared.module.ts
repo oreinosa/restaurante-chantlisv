@@ -1,3 +1,8 @@
+import { CalTotalPipe } from './pipes/cal-total.pipe';
+import { SelectedPipe } from './pipes/selected.pipe';
+import { DowPipe } from './pipes/dow.pipe';
+import { ProductsByCategoryPipe } from './pipes/products-by-category.pipe';
+import { GetMenuProductsPipe } from './pipes/get-menu-products.pipe';
 import { RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -30,6 +35,7 @@ import {
 import { CapitalizePipe } from "./pipes/capitalize.pipe";
 
 import { ShowImagePipe } from './pipes/show-image.pipe';
+import { SpanishDatePipe } from './pipes/spanish-date.pipe';
 
 @NgModule({
   imports: [
@@ -65,6 +71,12 @@ import { ShowImagePipe } from './pipes/show-image.pipe';
     CommonModule,
     CapitalizePipe,
     ShowImagePipe,
+    GetMenuProductsPipe,
+    ProductsByCategoryPipe,
+    DowPipe,
+    SelectedPipe,
+    CalTotalPipe,
+    SpanishDatePipe,
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
@@ -95,8 +107,13 @@ import { ShowImagePipe } from './pipes/show-image.pipe';
   ],
   declarations: [
     CapitalizePipe,
-
-    ShowImagePipe
+    GetMenuProductsPipe,
+    ShowImagePipe,
+    ProductsByCategoryPipe,
+    DowPipe,
+    SelectedPipe,
+    CalTotalPipe,
+    SpanishDatePipe,
   ]
 })
 export class SharedModule { }

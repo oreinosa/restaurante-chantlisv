@@ -38,18 +38,18 @@ export class Delete<T> implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.service.delete(this.id).subscribe(
-      () => {
-        this.notifications.show(
-          `${this.service.className} eliminado`,
-          this.service.collectionName,
-          "success"
-        );
-      },
-      (e: HttpErrorResponse) => {
-        this.notifications.show(e.error, this.service.collectionName, "danger");
-      },
-      () => this.router.navigate(["../../"], { relativeTo: this.route })
-    );
+    // this.service.delete(this.id).subscribe(
+    //   () => {
+    //     this.notifications.show(
+    //       `${this.service.className} eliminado`,
+    //       this.service.collectionName,
+    //       "success"
+    //     );
+    //   },
+    //   (e: HttpErrorResponse) => {
+    //     this.notifications.show(e.error, this.service.collectionName, "danger");
+    //   },
+    //   () => this.router.navigate(["../../"], { relativeTo: this.route })
+    // );
   }
 }

@@ -4,12 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './auth.guard';
 import { AccountVerifiedComponent } from './account-verified/account-verified.component';
-import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 
 const routes: Routes = [
   // { path: 'login', component: LoginComponent },
   { path: 'cuenta-verificada', component: AccountVerifiedComponent },
-  { path: 'restablecer-contrasena', component: RecoverPasswordComponent },
   { path: 'perfil', redirectTo: 'perfil/personal' },
   { path: 'perfil/:action', component: ProfileComponent, canActivate: [AuthGuard] },
 ];

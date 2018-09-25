@@ -1,0 +1,23 @@
+.mat-table, .mat-paginator{
+  background-color: inherit;
+}
+.mat-header-cell{
+  color: grey!important;
+}
+.mat-cell, .mat-header-cell {
+  padding: 5px 15px;   
+}
+.mat-cell{
+  word-wrap: break-word;
+  word-break: break-all;
+  /* white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; */
+}
+.table-container{
+  overflow-x: auto;
+}
+.mat-table {
+  max-height: 600px;
+  overflow: auto;   
+}

@@ -1,0 +1,23 @@
+<ng-container *ngIf='menu;else loadingMenu'>
+  <ng-container *ngIf='(menu.id | getMenuProducts | async) as products'>
+    <ng-container *ngIf='products?.length; else loadingProducts'>
+      <ng-container [ngSwitch]='step'>
+        <app-step-1 [menu]='menu' [products]='products' [principal]='newOrder?.products?.principal' [acompanamientos]='newOrder?.products?.acompanamientos'
+          (select)='onSelect($event.principal, $event.acompanamientos)' *ngSwitchCase='1'></app-step-1>
+
+        <app-step-2 [menu]='menu' [bebida]='newOrder?.products?.bebida' (select)='onSelectBebida($event)' *ngSwitchCase='2'></app-step-2>
+
+        <app-step-3 [menu]='menu' [principal]='newOrder?.products?.principal' [acompanamientos]='newOrder?.products?.acompanamientos'
+          [bebida]='newOrder?.products?.bebida' (confirm)='onConfirm($event?.tortillas, $event?.total)' *ngSwitchCase='3'></app-step-3>
+
+        <app-step-4 *ngSwitchCase='4'></app-step-4>
+      </ng-container>
+    </ng-container>
+    <ng-template #loadingProducts>
+      <h2> Cargando productos...</h2>
+    </ng-template>
+  </ng-container>
+</ng-container>
+<ng-template #loadingMenu>
+  <mat-spinner></mat-spinner>
+</ng-template>

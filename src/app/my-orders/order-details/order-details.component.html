@@ -1,0 +1,66 @@
+<mat-card class='mat-elevation-z0' *ngIf='order'>
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Detalles de tu orden</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h3>{{ order.id }}</h3>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container *ngIf='order;else loadingOrder'>
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <h5>
+            <b>Plato principal </b>
+            <br> {{ order.products.principal }}
+          </h5>
+          <h5 *ngIf='order.products?.acompanamientos as acompanamientos'>
+            <b>Acompanamientos </b>
+            <br>
+            <ng-container *ngFor='let ac of acompanamientos; isLast as last'>
+              {{ ac }}
+              <br *ngIf='!isLast'>
+            </ng-container>
+          </h5>
+          <h5>
+            <b>Bebida </b>
+            <br> {{ order.products.bebida }}
+          </h5>
+          <h5 *ngIf='order?.tortillas'>
+            {{ order.tortillas + ' tortilla' + ( order.tortillas > 1 ? 's' : '')}}
+          </h5>
+        </div>
+        <div class="col-12 col-sm-6">
+          <h5>
+            Ordenado para {{ order.date.for.toDate() | spanishDate }}
+          </h5>
+          <h5>
+            Ordenado el {{ order.date.by.toDate() | spanishDate }}
+          </h5>
+          <h5>
+            Precio {{ order.price | currency }}
+          </h5>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #loadingOrder>
+      <mat-spinner class="col-12 mx-auto"></mat-spinner>
+    </ng-template>
+  </mat-card-content>
+  <mat-card-actions>
+    <button type='button' mat-button (click)='onSubmit()' [disabled]='!order'>
+      <!-- <mat-icon>edit</mat-icon> -->
+      <ng-container *ngIf='order;else loadingOrderDate'>
+        Ver menús para {{ order.date.for.toDate() | spanishDate }}
+      </ng-container>
+      <ng-template #loadingOrderDate>
+        Cargando orden...
+      </ng-template>
+    </button>
+    <button type='button' mat-button (click)='onCancel()'>
+      <!-- <mat-icon>edit</mat-icon> -->
+      Atrás
+    </button>
+  </mat-card-actions>
+</mat-card>

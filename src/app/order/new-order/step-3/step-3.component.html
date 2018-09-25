@@ -1,0 +1,104 @@
+<mat-card *ngIf='menu' @fadeIn [ngClass]='editing ? "mat-elevation-z0" : ""'>
+  <mat-card-header>
+    <mat-card-title *ngIf='!editing'>
+      <h1>Confirmando orden para {{ menu.date.toDate().getDay() | dow  }}</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h3>Paso 3</h3>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row text-center">
+      <div class="col-12 col-md-6 col-lg-4">
+        <h3>Plato principal</h3>
+        <figure>
+          <img [src]="principal.imageURL" class="img-fluid img-thumbnail rounded">
+        </figure>
+        <p>{{ principal.name }}</p>
+        <p *ngIf='principal?.noSides'>(¡Este plato principal no lleva acompanamientos!)</p>
+        <p *ngIf='principal?.noTortillas'>(¡Este plato principal no lleva tortillas!)</p>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3" *ngIf='acompanamientos.length'>
+        <h3>Acompañamientos</h3>
+        <div class="row">
+          <div class="col-12" *ngFor='let acompanamiento of acompanamientos'>
+            <figure>
+              <img [src]="acompanamiento.imageURL" class="img-fluid img-thumbnail rounded">
+            </figure>
+            <p>{{ acompanamiento.name }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <h3>Bebida</h3>
+        <figure>
+          <img [src]="bebida.imageURL" class="img-fluid img-thumbnail rounded">
+        </figure>
+        <p>{{ bebida.name }}</p>
+      </div>
+      <div class="col-12">
+        <ng-container *ngIf='!principal?.noTortillas'>
+          <h3 class='text-right'>
+            <mat-form-field class='my-3'>
+              <input matInput type="number" placeholder="Tortillas" [(ngModel)]='tortillas' #tortillasCtrl='ngModel' required min='0' max='4'
+                pattern='^[0-4]$'>
+              <mat-hint style='font-size: 85%'>Máximo 4</mat-hint>
+            </mat-form-field>
+          </h3>
+        </ng-container>
+        <ng-container *ngIf='(menu.price | calTotal:bebida:tortillas) as totalDue'>
+          <ng-container *ngIf='editing && previousPrice !== totalDue; else justTotal'>
+            <h5 class='text-right'>
+              <i>
+                <b>Nota :</b>
+                <br> Debido a que esta orden
+                <ng-container *ngIf='previousPrice > totalDue'>
+                  <ng-container *ngIf='paid;else notPaid'>
+                    ya estaba pagada y este plato vale {{ (previousPrice - totalDue) | currency }} menos se te agregará esa cantidad de crédito
+                  </ng-container>
+                  <ng-template #notPaid>
+                    no está pagada aún y este plato vale {{ (previousPrice - totalDue) | currency }} menos se te deducirá esa cantidad de tu
+                    total pendiente
+                  </ng-template>
+                </ng-container>
+                <ng-container *ngIf='previousPrice < totalDue'>
+                  vale {{ (totalDue - previousPrice) | currency}} más se deducirá esta cantidad de tu crédito (en caso de ser suficiente) o
+                  se agregará a tu total pendiente
+                </ng-container>
+              </i>
+            </h5>
+            <h1 class='text-right'>
+              <br> Total
+              <del>
+                <b [ngStyle]='{color: (previousPrice > totalDue  ? "lightcoral" : "lightgreen")}'>{{ previousPrice | currency}}</b>
+              </del>
+              <span> -> </span>
+              <b [ngStyle]='{color: (previousPrice > totalDue  ? "lightgreen" : "lightcoral")}'>{{ totalDue | currency }}</b>
+            </h1>
+          </ng-container>
+          <ng-template #justTotal>
+            <h1 class='text-right'>
+              Total
+              <b>{{ totalDue | currency }}</b>
+            </h1>
+          </ng-template>
+        </ng-container>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align='end'>
+    <button mat-button type='button' (click)='onBack(0)' *ngIf='editing'>
+      Volver a menús
+    </button>
+    <button mat-button type='button' (click)='onBack(1)'>
+      Atras (Paso 1)
+    </button>
+    <button mat-button type='button' (click)='onBack(2)'>
+      Atras (Paso 2)
+    </button>
+    <button mat-button type='button' (click)='onConfirm(total)' *ngIf='menu.price | calTotal:bebida:tortillas as total' [disabled]='tortillasCtrl?.invalid'>
+      Confirmar
+    </button>
+  </mat-card-actions>
+</mat-card>

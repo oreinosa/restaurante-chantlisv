@@ -1,0 +1,52 @@
+<mat-card *ngIf='menu' @fadeIn [ngClass]='editing ? "mat-elevation-z0" : ""'>
+  <mat-card-header>
+    <mat-card-title *ngIf='!editing'>
+      <h1>Ordenando para {{ menu.date.toDate().getDay() | dow }}</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h3>Paso 2</h3>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <ng-container *ngIf='(_bebidas | async) as bebidas; else loadingBebidas'>
+        <div class="col-12 text-center">
+          <h2>Selecciona tu bebida</h2>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text" *ngFor='let product of bebidas'>
+          <div class='img-container' [ngClass]='product?.notAvailable ? "grayedOut" : "hoverProduct"'>
+            <img [src]="product.imageURL" *ngIf='product?.imageURL' class="img-fluid rounded" [ngClass]='bebida?.id === product?.id ? "selected":""'>
+            <div class="overlay" (click)='product?.notAvailable ? false : onSelectBebida(product)'>
+              <ng-container *ngIf='product?.notAvailable;else selectTemplate'>
+                <p>{{ product.name }} no se encuentra disponible :(</p>
+              </ng-container>
+              <ng-template #selectTemplate>
+                <h5>{{ bebida?.id === product?.id ? "Seleccionado" : "Seleccionar"}}</h5>
+              </ng-template>
+            </div>
+          </div>
+          <p>{{ product.name }}</p>
+          <p *ngIf='product?.extra'>
+            <b> Extra : {{ product.extra | currency }}</b>
+          </p>
+        </div>
+      </ng-container>
+      <ng-template #loadingBebidas>
+        <div class="col-12">
+          <mat-spinner class="mx-auto"></mat-spinner>
+        </div>
+      </ng-template>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align='end'>
+    <button mat-button type='button' (click)='onBack(0)' *ngIf='editing'>
+      Volver a menús
+    </button>
+    <button mat-button type='button' (click)='onBack()'>
+      Atras
+    </button>
+    <button mat-button type='button' (click)='onSelect()' [disabled]='!bebida'>
+      Siguiente
+    </button>
+  </mat-card-actions>
+</mat-card>

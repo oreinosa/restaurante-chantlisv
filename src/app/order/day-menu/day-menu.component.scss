@@ -1,0 +1,34 @@
+@import 'src/_colors';
+.menu-products{
+  word-wrap: break-word;
+}
+.mat-card{
+  background-color: $accent;
+  font-weight: 500;
+  // color: white!important;
+  .mat-card-subtitle{
+    // color: white!important;  
+  }
+  .mat-card-content{
+    min-height: 130px;
+  }
+}
+.not-available{
+  text-decoration: line-through;
+}
+
+// .Lunes{
+//   background-color: #B2DFDB;
+// }
+// .Martes{
+//   background-color: #B2EBF2;
+// }
+// .Miércoles{
+//   background-color: #B3E5FC;
+// }
+// .Jueves{
+//   background-color: #BBDEFB;
+// }
+// .Viernes{
+//   background-color: #C8E6C9;
+// }

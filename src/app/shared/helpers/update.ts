@@ -19,27 +19,27 @@ export class Update<T> implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.route.paramMap
-      .pipe(
-        takeUntil(this.ngUnsubscribe),
-        map(params => +params.get("id")),
-        tap(id => {
-          this.id = id;
-          if (id === null || !(id as number)) {
-            this.router.navigate(["../"], { relativeTo: this.route });
-          }
-        }),
-        filter(id => !!id),
-        switchMap(
-          id =>
-            this.service.isObjectSelected()
-              ? this.service.getSelectedObject()
-              : this.service.one(id)
-        ),
-        takeUntil(this.ngUnsubscribe)
-        ,tap(object => console.log(object))
-      )
-      .subscribe(object => (this.object = object));
+    // this.route.paramMap
+    //   .pipe(
+    //     takeUntil(this.ngUnsubscribe),
+    //     map(params => +params.get("id")),
+    //     tap(id => {
+    //       this.id = id;
+    //       if (id === null || !(id as number)) {
+    //         this.router.navigate(["../"], { relativeTo: this.route });
+    //       }
+    //     }),
+    //     filter(id => !!id),
+    //     switchMap(
+    //       id =>
+    //         this.service.isObjectSelected()
+    //           ? this.service.getSelectedObject()
+    //           : this.service.one(id)
+    //     ),
+    //     takeUntil(this.ngUnsubscribe)
+    //     ,tap(object => console.log(object))
+    //   )
+    //   .subscribe(object => (this.object = object));
   }
 
   ngOnDestroy() {
@@ -49,19 +49,19 @@ export class Update<T> implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     const object: T = form.value;
-    this.service.update(this.id, object).subscribe(
-      (editedObject: T) => {
-        this.notifications.show(
-          `${this.service.className} actualizado`,
-          this.service.collectionName,
-          "success"
-        );
-        this.router.navigate(["../../"], { relativeTo: this.route });
-      },
-      (e: HttpErrorResponse) => {
-        this.notifications.show(e.error, this.service.collectionName, "danger");
-        form.resetForm(object);
-      }
-    );
+    // this.service.update(this.id, object).subscribe(
+    //   (editedObject: T) => {
+    //     this.notifications.show(
+    //       `${this.service.className} actualizado`,
+    //       this.service.collectionName,
+    //       "success"
+    //     );
+    //     this.router.navigate(["../../"], { relativeTo: this.route });
+    //   },
+    //   (e: HttpErrorResponse) => {
+    //     this.notifications.show(e.error, this.service.collectionName, "danger");
+    //     form.resetForm(object);
+    //   }
+    // );
   }
 }

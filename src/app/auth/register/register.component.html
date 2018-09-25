@@ -8,20 +8,24 @@
       <mat-error *ngIf='f.controls?.name?.invalid'>Ingresa tu nombre</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="email" placeholder='Correo electrónico' [(ngModel)]='register.email' name='email' required
-        email>
-      <mat-error *ngIf='f.controls?.email?.invalid && !f.controls?.email?.hasError("email")'>Ingresa tu correo
-        electrónico</mat-error>
-      <mat-error *ngIf='f.controls?.email?.hasError("email")'>Ingresa un correo electrónico válido
-        (usuario@dominio.com)</mat-error>
+      <input matInput type="email" placeholder='Correo electrónico' [(ngModel)]='register.email' name='email' required email>
+      <mat-error *ngIf='f.controls?.email?.invalid && !f.controls?.email?.hasError("email")'>Ingresa tu correo electrónico
+      </mat-error>
+      <mat-error *ngIf='f.controls?.email?.hasError("email")'>Ingresa un correo electrónico válido (usuario@dominio.com)
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class='full-width'>
+      <mat-select placeholder="Lugar de trabajo" [(ngModel)]='register.workplace' name='workplace' required>
+        <mat-option *ngFor='let workplace of $workplaces | async' [value]='workplace.name'>{{ workplace.name }}</mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field>
       <input matInput type="password" placeholder='Contraseña' [(ngModel)]='register.password' name='password' required>
       <mat-error *ngIf='f.controls?.password?.invalid'>Ingresa tu contraseña</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="password" placeholder='Confirmar contraseña' [(ngModel)]='confirmPassword' name='confirmPassword'
-        required [pattern]='register.password'>
+      <input matInput type="password" placeholder='Confirmar contraseña' [(ngModel)]='confirmPassword' name='confirmPassword' required
+        [pattern]='register.password'>
       <mat-error *ngIf='f.controls?.confirmPassword?.invalid && !f.controls?.confirmPassword?.hasError("pattern")'>Vuelve a ingresar tu contraseña</mat-error>
       <mat-error *ngIf='f.controls?.confirmPassword?.hasError("pattern")'>Las dos contraseñas deben ser iguales</mat-error>
     </mat-form-field>
@@ -36,7 +40,7 @@
   <div class="text-center">
     <button type="button" mat-button class='my-2' (click)='onAction("ingresar")'>¿Ya tienes una cuenta de Chantlí SV?</button>
     <br>
-    <button type="button" mat-button class='my-2' (click)='onAction("restablecer-contraseña")'>¿Olvidaste tu
-      contraseña?</button>
+    <button type="button" mat-button class='my-2' (click)='onAction("restablecer-contraseña")'>¿Olvidaste tu contraseña?
+    </button>
   </div>
 </form>

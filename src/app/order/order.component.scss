@@ -1,0 +1,41 @@
+@import "src/_colors";
+
+.title, .select-day{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-top: -15px;
+  margin-bottom: 25px;
+  background-color: $primary-light;
+  // color: white!important;
+  text-align : center;
+  /* outline: 10px solid #009688; */
+}
+.select-day{
+  margin-top: -27px;
+}
+.arrow-button .mat-icon{
+  vertical-align: baseline;
+}
+.mat-tab-link{
+  color: white!important;  
+  text-decoration: none;
+}
+.mat-tab-label-active{
+  font-weight: bolder;
+  color: black!important;
+}
+
+.mobile  {
+  .active{
+    background-color: inherit;    
+  }
+  nav a{ 
+    font-size: 150%;    
+  }
+  .select-button button .mat-icon{
+    font-size: 50px;        
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+  }
+}

@@ -1,0 +1,102 @@
+<mat-card *ngIf='menu' @fadeIn [ngClass]='editing ? "mat-elevation-z0" : ""'>
+  <mat-card-header>
+    <mat-card-title *ngIf='!editing'>
+      <h1>Ordenando para {{ menu.date.toDate().getDay() | dow }}</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h3>Paso 1</h3>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="text-center">
+      <h1>Selecciona el plato principal y acompañamientos</h1>
+    </div>
+    <br>
+    <div class="row" *ngIf='products as products'>
+      <!-- PLATOS PRINCIPALES -->
+      <div class="col-12 col-md-6 text-center" *ngIf='products | productsByCategory:"Principal" as principales'>
+        <h2>Platos principales</h2>
+        <div class="row">
+          <!-- PRODUCTS LOOP -->
+          <div class='col-12 col-sm-10 col-lg-8 col-xl-6 offset-xl-1 mx-auto' [ngClass]='isLast ? "" : "mb-3"' *ngFor='let product of principales; last as isLast'>
+            <h5>
+              {{ product.name }}
+            </h5>
+            <!-- PRODUCT IMAGE, NG CLASS TO SHOW AS SELECTED -->
+            <div class='img-container' [ngClass]='product?.notAvailable ? "grayedOut" : "hoverProduct"'>
+              <img [src]="product.imageURL" *ngIf='product?.imageURL' class="img-fluid rounded" [ngClass]='principal?.id === product?.id ? "selected":""'>
+              <div class="overlay" (click)='product?.notAvailable ? false : onSelectPrincipal(product)'>
+                <ng-container *ngIf='product?.notAvailable;else selectTemplate'>
+                  <p>{{ product.name }} no se encuentra disponible :(</p>
+                </ng-container>
+                <ng-template #selectTemplate>
+                  <h5>{{ principal?.id === product?.id ? "Seleccionado" : "Seleccionar"}}</h5>
+                </ng-template>
+              </div>
+            </div>
+            <h6>{{ product.description }}</h6>
+            <!-- IF NO SIDES EQUALS TRUE -->
+            <p *ngIf='product.noSides'>
+              <b>
+                <i>(¡Este plato principal no lleva acompanamientos!)</i>
+              </b>
+            </p>
+            <p *ngIf='product.noTortillas'>
+              <b>
+                <i>(¡Este plato principal no lleva tortillas!)</i>
+              </b>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- END PLATOS PRINCIPALES -->
+      <div class="col-12 col-md-6 text-center" *ngIf='products | productsByCategory:"Acompañamiento" as _acompanamientos'>
+        <ng-container *ngIf='_acompanamientos.length; else noAcompanamientos'>
+          <h2>Acompañamientos</h2>
+          <div class="row">
+            <div class='col-12 col-sm-10 offset-sm-1 col-lg-6 offset-lg-0' [ngClass]='isLast ? "" : "mb-3"' *ngFor='let product of _acompanamientos; last as isLast'>
+              <h5>
+                {{ product.name }}
+              </h5>
+              <div class='img-container' [ngClass]='product?.notAvailable ? "grayedOut" : "hoverProduct"'>
+                <img [src]="product.imageURL" *ngIf='product?.imageURL' class="img-fluid rounded" [ngClass]='(acompanamientos | selected:product:refresh) ? "selected":""'>
+                <div class="overlay" (click)='product?.notAvailable ? false : onSelectAcompanamiento(product)'>
+                  <ng-container *ngIf='product?.notAvailable;else selectTemplate'>
+                    <p>{{ product.name }} no se encuentra disponible :(</p>
+                  </ng-container>
+                  <ng-template #selectTemplate>
+                    <h5>{{ (acompanamientos | selected:product:refresh) ? "Seleccionado" : "Seleccionar"}}</h5>
+                  </ng-template>
+                </div>
+              </div>
+              <h6>{{ product.description }}</h6>
+            </div>
+            <div class="col-12">
+              <mat-checkbox [formControl]='doubleFlag' (change)='onDoubleAcompanamiento()'>
+                Doble acompañamiento?
+              </mat-checkbox>
+              <h6 *ngIf='!principal?.noSides && (acompanamientos?.length < 2)'>
+                Selecciona los acompañamientos
+              </h6>
+              <h6 *ngIf='doubleFlag && selProducts?.sides?.length'>Doble {{ selSides[0] }}</h6>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noAcompanamientos>
+          <h4>Este menú no tiene acompañamientos.</h4>
+        </ng-template>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align='end'>
+    <button mat-button type='button' (click)='onCancel("../0")' *ngIf='editing'>
+      Volver a menús
+    </button>
+    <button mat-button type='button' (click)='onCancel()'>
+      Cancelar
+    </button>
+    <button mat-button type='button' (click)='onSelect()' [disabled]='!(principal && (acompanamientos.length == 2 || doubleFlag.disabled || principal.noSides) )'>
+      Siguiente
+    </button>
+  </mat-card-actions>
+</mat-card>

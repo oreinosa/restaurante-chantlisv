@@ -34,17 +34,17 @@ export class List<T> implements OnInit, OnDestroy {
     this.dataSource.paginator = this.paginator;
     this.dataSource.paginator.pageSize = 10;
 
-    this.service
-      .all()
-      .pipe(
-        switchMap(() => this.service.objects),
-        takeUntil(this.ngUnsubscribe),
-        tap(objects => {
-          console.log(`${this.service.collectionName} : `, objects);
-          this.objects = objects;
-        })
-      )
-      .subscribe((objects: T[]) => (this.dataSource.data = objects));
+    // this.service
+    //   .all()
+    //   .pipe(
+    //     switchMap(() => this.service.objects),
+    //     takeUntil(this.ngUnsubscribe),
+    //     tap(objects => {
+    //       console.log(`${this.service.collectionName} : `, objects);
+    //       this.objects = objects;
+    //     })
+    //   )
+    //   .subscribe((objects: T[]) => (this.dataSource.data = objects));
   }
 
   ngOnDestroy() {
@@ -58,7 +58,7 @@ export class List<T> implements OnInit, OnDestroy {
     let id = "";
     if (object) {
       id = object["id"];
-      this.service.setSelectedObject(object);
+      // this.service.setSelectedObject(object);
     }
     this.router.navigate(['admin', this.service.apiRoute, action, id]);
   }

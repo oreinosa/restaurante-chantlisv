@@ -16,6 +16,7 @@ import { NotificationsService } from "../notifications/notifications.service";
 })
 export class AuthService {
   private userSubject: BehaviorSubject<User>;
+  user = new Observable<User>();
   linksSubject: BehaviorSubject<any[]>;
   actionsSubject: BehaviorSubject<any[]>;
 
@@ -38,7 +39,7 @@ export class AuthService {
     this.linksSubject = new BehaviorSubject(this.defaultLinks);
     this.actionsSubject = new BehaviorSubject(this.defaultActions);
     this.checkSession();
-    this.afAuth.authState.pipe(
+    this.user = this.afAuth.authState.pipe(
       switchMap(fbUser => {
         // console.log('Firebase user : ', user);
         if (fbUser) {
@@ -48,9 +49,9 @@ export class AuthService {
         return of(null);
       }),
       tap(user => console.log(user)),
+      tap(user => this.userSubject.next(user)),
       tap(user => this.updateRouting(user ? user.role : "not-signed-in"))
-    )
-      .subscribe(user => this.userSubject.next(user));
+    );
   }
 
   private checkSession() {
@@ -58,13 +59,10 @@ export class AuthService {
     this.userSubject = new BehaviorSubject<User>(null);
   }
 
-  get user(): Observable<User> {
-    return this.userSubject.asObservable();
-  }
-
   get currentUser(): User {
     return this.userSubject.getValue();
   }
+
 
   sendForgotPasswordEmail(email: string) {
     return this.afAuth.auth.sendPasswordResetEmail(email);
@@ -196,7 +194,7 @@ export class AuthService {
           icon: "assignment_late"
         });
       case "Cliente":
-        actions.push({ label: "Perfil", name: "perfil", icon: "person_pin" });
+        actions.push({ label: "Perfil", name: "perfil", icon: "person_pin" }, { label: "Mis órdenes", name: "mis-ordenes", icon: "shopping_cart" });
         break;
       default:
         // console.log('not signed in');

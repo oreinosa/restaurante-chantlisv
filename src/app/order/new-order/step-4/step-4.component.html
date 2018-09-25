@@ -1,0 +1,19 @@
+<mat-card *ngIf='menu' @fadeIn [ngClass]='editing ? "mat-elevation-z0" : ""'>
+  <mat-card-header>
+    <mat-card-title *ngIf='!editing'>
+      <h4>Confirmando orden...</h4>
+    </mat-card-title>
+    <mat-card-subtitle>
+      Paso 4
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-spinner class='mx-auto'></mat-spinner>
+  </mat-card-content>
+  <mat-card-actions align='end'>
+    <button mat-button type='button' disabled>
+      <mat-icon>hourglass_empty</mat-icon>
+      <span class="d-none d-md-inline-flex">{{ editing ? "Editando":"Confirmando"}} ...</span>
+    </button>
+  </mat-card-actions>
+</mat-card>

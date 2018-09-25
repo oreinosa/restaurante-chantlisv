@@ -1,0 +1,90 @@
+<div class="row">
+  <div class='col-12 title'>
+    <h1>Menu de la semana</h1>
+    <h3 *ngIf='monday && friday'>Del {{ monday | spanishDate:"short" }} al {{ friday | spanishDate:"short" }}</h3>
+    <h4>Selecciona el día que quieres ordenar</h4>
+    <ng-container *ngIf='$user | async as user'>
+      <h5>
+        <i>
+          <ng-container *ngIf='user.credit <= 0;else noCredit'> No tienes crédito :( </ng-container>
+          <ng-template #noCredit>Tienes {{ user.credit | currency }} de crédito :)
+          </ng-template>
+        </i>
+      </h5>
+      <h5>
+        <i>
+          <ng-container *ngIf='user.debit > 0;else noDebit'>Tienes {{ user.debit | currency }} de pendiente de pago</ng-container>
+          <ng-template #noDebit>No tienes pagos pendientes
+          </ng-template>
+        </i>
+      </h5>
+    </ng-container>
+  </div>
+  <ng-container *ngIf='menus; else loading'>
+    <div class="col-12 col-sm-10 col-lg-8 mx-auto mb-3 text-center" *ngIf='menus.length == 0;else dowSelection'>
+      <h4>Aún no está el menú de la semana.</h4>
+    </div>
+    <ng-template #dowSelection>
+      <!-- DAYS OF THE WEEK -->
+      <!-- [ngClass]='(isHandset$ | async) ? "mobile" : ""' -->
+      <div class="col-12 select-day">
+        <div class="row">
+          <ng-container *ngIf='!(isHandset$ | async);else selectedDay'>
+            <div class="col-12 text-center">
+              <nav mat-tab-nav-bar class='week d-inline-block' color='accent'>
+                <a mat-tab-link *ngFor="let $dow of DOW;let i=index" (click)='onSelectDay(i+1)' [active]='(i+1) === dow'>
+                  {{ $dow | capitalize }}
+                </a>
+              </nav>
+            </div>
+          </ng-container>
+          <ng-template #selectedDay>
+            <div class="col-2 offset-2">
+              <button type='button' mat-icon-button (click)='onSelectDay(dow-1)' class='arrow-button float-right' [disabled]='dow <= 1'>
+                <mat-icon>
+                  arrow_left
+                </mat-icon>
+              </button>
+            </div>
+            <div class="col-4">
+              <h5 class='active'>
+                {{ (DOW[dow-1] ? DOW[dow-1] : "") | capitalize }}
+              </h5>
+            </div>
+            <div class="col-2 col-">
+              <button type='button' mat-icon-button (click)='onSelectDay(dow+1)' class='arrow-button float-left' [disabled]='dow >= 5'>
+                <mat-icon>
+                  arrow_right
+                </mat-icon>
+              </button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+      <div class='col-12 mb-3'>
+        <div class="row">
+          <ng-container *ngIf='selectedMenus.length;else menuNotAvailable'>
+            <!-- {{ selectedMenu | json }} -->
+            <ng-container *ngFor='let selectedMenu of selectedMenus'>
+              <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto my-3 menu-container">
+                <app-day-menu [menu]='selectedMenu' (selected)='onOrderMenu($event)'></app-day-menu>
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-template #menuNotAvailable>
+            <div class="col-12 col-md-6 mx-auto" *ngIf='DOW[dow-1] as day'>
+              <mat-card>
+                <h4 class='text-center'>No hay menú para {{ day | capitalize }} :(</h4>
+              </mat-card>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-template #loading>
+    <div class="col-12">
+      <mat-spinner class='mx-auto'></mat-spinner>
+    </div>
+  </ng-template>
+</div>

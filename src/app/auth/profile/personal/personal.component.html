@@ -25,12 +25,13 @@
     </ng-container>
     <ng-template #updateWorkplace>
       <h4>
-        <mat-form-field>
-          <mat-select type="text" placeholder="Lugar de trabajo">
-            <mat-option *ngFor='let workplace of $workplaces | async' [value]='workplace.name'>{{ workplace.name }}}</mat-option>
+        <mat-form-field class='full-width'>
+          <mat-select placeholder="Lugar de trabajo" [formControl]='workplaceCtrl' required>
+            <mat-option *ngFor='let workplace of $workplaces | async' [value]='workplace.name'>{{ workplace.name }}</mat-option>
           </mat-select>
         </mat-form-field>
       </h4>
+      <button mat-button type='button' (click)='onUpdateWorkplace(workplaceCtrl?.value)' [disabled]='workplaceCtrl?.invalid'>Actualizar lugar de trabajo</button>
     </ng-template>
   </mat-card-content>
 </mat-card>
