@@ -8,18 +8,20 @@ import { DAOSubcollection } from '../../shared/helpers/dao-subcollection';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class MenusService extends DAOSubcollection<Menu, Product> {
 
   constructor(
     public af: AngularFirestore,
     public notificationsService: NotificationsService
   ) {
-    super('Menu', 'Menús', 'menus', af, notificationsService, 'productos');
+    super('menus', 'Menú', 'Menús', af, notificationsService, 'Productos', 'products');
   }
 
   getAll(): Observable<Menu[]> {
-    this.objectCollection = this.af.collection<Menu>('menus', ref => ref.orderBy('date', 'desc').limit(10));
+    this.objectCollection = this.af.collection<Menu>(this.collectionRoute, ref => ref.orderBy('date', 'desc').limit(10));
     return this.objectCollection
       .snapshotChanges()
       .pipe(
@@ -59,16 +61,16 @@ export class MenusService extends DAOSubcollection<Menu, Product> {
     return this.objectCollection.doc(id)
       .set({ available: flag }, { merge: true })
       .then(() => this.notificationsService
-        .show(`Menu ${id} ${flag ? "disponible" : "cerrado"}`, 'Menús', `${flag ? "success" : "warning"}`));
+        .show(`Menu ${id} ${flag ? "disponible" : "cerrado"}`, this.collectionName, `${flag ? "success" : "warning"}`));
   }
 
   toggleNotAvailable(menuId: string, productId: string, flag: boolean): Promise<void> {
     return this.objectCollection
       .doc(menuId)
-      .collection('productos')
+      .collection(this.subCollectionRoute)
       .doc(productId)
       .set({ notAvailable: flag }, { merge: true })
       .then(() => this.notificationsService
-        .show(`Producto ${productId} de menu ${menuId} ${flag ? "disponible" : "se acabó"}`, 'Menús', `${flag ? "success" : "warning"}`));
+        .show(`Producto ${productId} de menu ${menuId} ${flag ? "disponible" : "se acabó"}`, this.collectionName, `${flag ? "success" : "warning"}`));
   }
 }

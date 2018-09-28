@@ -68,7 +68,10 @@ export class ContainerComponent {
     this.auth.linksSubject.subscribe(links => this.links = links);
     this.auth.actionsSubject.subscribe(actions => this.actions = actions);
 
-    this.auth.user
+    this.auth.user.pipe(
+      tap(user => console.log(user)),
+      tap(user => this.auth.updateRouting(user ? user.role : "not-signed-in"))
+    )
       .subscribe(user => (this.user = user));
   }
 

@@ -60,6 +60,6 @@ export class List<T> implements OnInit, OnDestroy {
       id = object["id"];
       // this.service.setSelectedObject(object);
     }
-    this.router.navigate(['admin', this.service.apiRoute, action, id]);
+    this.router.navigate(['admin', this.service.collectionRoute, action, id]);
   }
 }

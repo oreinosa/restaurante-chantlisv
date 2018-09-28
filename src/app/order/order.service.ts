@@ -8,7 +8,9 @@ import { Order } from '../shared/models/order';
 import { NotificationsService } from '../notifications/notifications.service';
 import { map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class OrderService {
   private menusCol: AngularFirestoreCollection<Menu>;
   private menuDoc: AngularFirestoreDocument<Menu>;
@@ -62,7 +64,7 @@ export class OrderService {
   }
 
   submitNewOrder(order: Order) {
-    this.ordersCol = this.af.collection<Order>('ordenes');
+    this.ordersCol = this.af.collection<Order>('orders');
     return this.ordersCol
       .add(order)
       .then(doc => this.notificationsService.show("Orden exitosa!", 'Nueva orden', "success"));

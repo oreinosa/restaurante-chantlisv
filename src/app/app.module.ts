@@ -15,6 +15,7 @@ import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { AuthModule } from './auth/auth.module';
+import { OrderModule } from './order/order.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
     BrowserModule,
     CoreModule,
     AuthModule,
+    OrderModule,
     NotificationsModule,
     AppRoutingModule,
     BrowserAnimationsModule,

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LoginComponent } from './login/login.component';
 import { NotificationsService } from '../notifications/notifications.service';
 import { MatDialog } from '@angular/material';
 import { AuthService } from './auth.service';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +20,19 @@ export class AdminGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.auth.loggedIn() && this.auth.currentUser.role === "Admin") {
-      return true;
-    }
-    this.notifications.show(
-      "Esta área es sólo para administradores ;)",
-      "Acceso no autorizado",
-      "danger"
+
+    return this.auth.user.pipe(
+      map(user => user.role === "Admin"),
+      tap(user => {
+        if (!user) {
+          this.notifications.show(
+            "Esta área es sólo para administradores ;)",
+            "Acceso no autorizado",
+            "danger"
+          );
+          this.router.navigate(['']);
+        }
+      })
     );
-    this.router.navigate(['']);
-    return false;
   }
 }

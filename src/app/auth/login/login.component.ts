@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       },
       (e) => {
         console.log(e);
-        let error: string;
+        let error: string = "Problema al ingresar, intenta de nuevo más tarde.";
         switch (e.code) {
           case "auth/wrong-password":
           case "auth/user-not-found":

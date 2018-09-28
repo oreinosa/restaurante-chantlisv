@@ -1,0 +1,28 @@
+<form #f='ngForm' (ngSubmit)='onSubmit(f)'>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Actualizar {{ service.className | lowercase }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf='object as user'>
+        <mat-form-field>
+          <input matInput type="text" placeholder='Nombre' [ngModel]='user.name' name='name' required [readonly]='f.submitted'>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder='Teléfono' [ngModel]='user.phone' name='phone' required [readonly]='f.submitted'>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder='Rol' [ngModel]='user.role' name='role' [compareWith]='compareRoleFn' required [disabled]='f.submitted'>
+            <mat-option *ngFor='let role of roles' [value]='role'>{{ role }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type='submit' [disabled]='f.invalid || f.submitted'>Actualizar</button>
+      <button mat-button type='button' routerLink='../../' [disabled]='f.submitted'>Cancelar</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

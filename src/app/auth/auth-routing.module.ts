@@ -8,8 +8,9 @@ import { AccountVerifiedComponent } from './account-verified/account-verified.co
 const routes: Routes = [
   // { path: 'login', component: LoginComponent },
   { path: 'cuenta-verificada', component: AccountVerifiedComponent },
-  { path: 'perfil', redirectTo: 'perfil/personal' },
-  { path: 'perfil/:action', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'mi-cuenta', redirectTo: 'mi-cuenta/perfil' },
+  { path: 'mi-cuenta/ordenes', loadChildren: "./my-orders/my-orders.module#MyOrdersModule" },
+  { path: 'mi-cuenta/:action', component: ProfileComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

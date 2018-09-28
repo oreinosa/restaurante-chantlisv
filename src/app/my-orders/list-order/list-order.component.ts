@@ -7,7 +7,7 @@ import { MyOrdersService } from '../my-orders.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationsService } from '../../notifications/notifications.service';
-import { takeUntil, tap, switchMap, map } from 'rxjs/operators';
+import { takeUntil, tap, switchMap, map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-order',
@@ -47,8 +47,9 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.auth
       .user.pipe(
         takeUntil(this.ngUnsubscribe),
+        filter(user => !!user),
         tap(user => {
-          console.log(user);
+          // console.log(user);
           this.user = user;
         }),
         switchMap(() => this.limitSubject),

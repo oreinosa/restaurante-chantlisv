@@ -1,0 +1,10 @@
+.mat-list-item{
+  display: inline-block;
+  margin: 5px 10px;
+  .mat-icon{
+    margin-right: 7.5px;
+  }
+  &.active{
+    background-color: rgba(0,0,0,0.05)
+  }
+}

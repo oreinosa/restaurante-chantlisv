@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { UpdateService } from './update.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private updateService: UpdateService
   ) { }
 
   ngOnInit() {

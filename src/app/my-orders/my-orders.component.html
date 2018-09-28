@@ -3,12 +3,12 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>
-          <h1>Mis ordenes</h1>
+          <h1>Mis órdenes</h1>
         </mat-card-title>
         <mat-card-subtitle>
           <ng-container *ngIf='$user | async as user; else loadingUser'>
             <h3>Total pendiente : {{ user?.debit | currency }}</h3>
-            <h3>Total credito : {{ user?.credit | currency }}</h3>
+            <h3>Total crédito : {{ user?.credit | currency }}</h3>
           </ng-container>
         </mat-card-subtitle>
       </mat-card-header>

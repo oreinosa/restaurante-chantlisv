@@ -13,6 +13,7 @@ import { ToolbarComponent } from "./container/toolbar/toolbar.component";
 import { SidenavContentComponent } from "./container/sidenav-content/sidenav-content.component";
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { OfflineComponent } from "./offline/offline.component";
 
 
 @NgModule({
@@ -23,8 +24,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
     MatSidenavModule,
     CoreRoutingModule
   ],
-  exports: [ContainerComponent],
+  exports: [ContainerComponent, OfflineComponent],
   declarations: [
+    OfflineComponent,
     ContainerComponent,
     AvatarComponent,
     FooterComponent,
@@ -34,6 +36,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     SidenavContentComponent,
     ContactUsComponent,
     WelcomeComponent
-  ]
+  ],
+  entryComponents: [OfflineComponent]
 })
 export class CoreModule { }

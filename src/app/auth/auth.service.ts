@@ -15,7 +15,6 @@ import { NotificationsService } from "../notifications/notifications.service";
   providedIn: "root"
 })
 export class AuthService {
-  private userSubject: BehaviorSubject<User>;
   user = new Observable<User>();
   linksSubject: BehaviorSubject<any[]>;
   actionsSubject: BehaviorSubject<any[]>;
@@ -38,7 +37,7 @@ export class AuthService {
   ) {
     this.linksSubject = new BehaviorSubject(this.defaultLinks);
     this.actionsSubject = new BehaviorSubject(this.defaultActions);
-    this.checkSession();
+
     this.user = this.afAuth.authState.pipe(
       switchMap(fbUser => {
         // console.log('Firebase user : ', user);
@@ -47,38 +46,17 @@ export class AuthService {
           return doc.valueChanges() as Observable<User>;
         }
         return of(null);
-      }),
-      tap(user => console.log(user)),
-      tap(user => this.userSubject.next(user)),
-      tap(user => this.updateRouting(user ? user.role : "not-signed-in"))
+      })
     );
   }
-
-  private checkSession() {
-    let user: User = null;
-    this.userSubject = new BehaviorSubject<User>(null);
-  }
-
-  get currentUser(): User {
-    return this.userSubject.getValue();
-  }
-
-
-  sendForgotPasswordEmail(email: string) {
-    return this.afAuth.auth.sendPasswordResetEmail(email);
-  }
-
-  // recoverPassword(password: string, code: string) {
-  //   return this.http.put<any>(this.api + "restablecer-contrasena", { password, code }).pipe(
-  //     map(res => {
-  //       return res.data as string;
-  //     })
-  //   );
-  // }
 
   loggedIn(): Observable<boolean> {
     // return this.afAuth.auth.currentUser !== null;
     return this.afAuth.authState.pipe(map(user => !!user));
+  }
+
+  sendForgotPasswordEmail(email: string) {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
   }
 
   loginEmail(login: Login) {
@@ -168,33 +146,37 @@ export class AuthService {
       }, e => console.log(e));
   }
 
-  private updateRouting(role: string) {
+  updateRouting(role: string) {
     console.log("Updating routing for ", role);
     let links: any[] = this.defaultLinks;
     let actions: any[] = [];
     switch (role) {
       case "Admin":
         actions.push({
+          label: "Pedidos",
+          route: "pedidos",
+          icon: "assignment_late"
+        });
+        actions.push({
           label: "Admin",
           name: "admin",
           icon: "build",
           children: [
             { label: "Usuarios", route: "usuarios", icon: "people" },
-            { label: "Roles", route: "roles", icon: "domain" },
-            { label: "FAQs", route: "faqs", icon: "question_answer" },
-            { label: "Categorías", route: "categorias", icon: "category" },
-            { label: "Presentaciones", route: "presentaciones", icon: "subscriptions" },
-            { label: "Sabores", route: "sabores", icon: "cloud" },
-            { label: "Cantidades de nicotina", route: "cantidades-nicotina", icon: "smoking_rooms" },
+            { label: "Lugares de trabajo", route: "lugares-de-trabajo", icon: "domain" },
+            { label: "Productos", route: "productos", icon: "fastfood" },
+            { label: "Menús", route: "menus", icon: "restaurant_menu" },
           ]
         });
-        links.push({
-          label: "Pedidos",
-          route: "pedidos",
-          icon: "assignment_late"
-        });
       case "Cliente":
-        actions.push({ label: "Perfil", name: "perfil", icon: "person_pin" }, { label: "Mis órdenes", name: "mis-ordenes", icon: "shopping_cart" });
+        actions.push(
+          {
+            label: "Mi cuenta", name: "mi-cuenta", icon: "account_circle", children: [
+              { label: 'Perfil', route: "perfil", icon: "person_pin" },
+              { label: "Mis órdenes", route: "ordenes", icon: "shopping_cart" }
+            ]
+          },
+        );
         break;
       default:
         // console.log('not signed in');

@@ -10,14 +10,15 @@ export abstract class DAOSubcollection<T, S> extends DAO<T>{
   objectCollection: AngularFirestoreCollection<T>;
 
   constructor(
-    public apiRoute: string,
+    public collectionRoute: string,
     public className: string,
     public collectionName: string,
     public af: AngularFirestore,
     public notificationsService: NotificationsService,
     public subCollectionName: string,
+    public subCollectionRoute: string
   ) {
-    super(className, collectionName, apiRoute, af, notificationsService);
+    super(className, collectionName, collectionRoute, af, notificationsService);
   }
 
   // getAll() {   

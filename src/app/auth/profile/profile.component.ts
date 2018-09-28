@@ -22,7 +22,8 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.links = [
-      { route: 'personal', label: 'Información personal', icon: 'person_pin' }
+      { route: 'perfil', label: 'Perfil Chantlí SV', icon: 'person_pin' },
+      { route: "ordenes", label: "Mis órdenes", icon: "shopping_cart" }
     ];
     this.$user = this.auth.user;
     this.route.paramMap.pipe(

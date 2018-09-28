@@ -11,15 +11,15 @@ export abstract class DAO<T> {
   constructor(
     public className: string,
     public collectionName: string,
-    public apiRoute: string,
+    public collectionRoute: string,
     public af: AngularFirestore,
     public notificationsService: NotificationsService
   ) {
-    this.objectCollection = af.collection<T>(apiRoute);
+    this.objectCollection = af.collection<T>(collectionRoute);
   }
 
   getAll(): Observable<T[]> {
-    this.objectCollection = this.af.collection<T>(this.apiRoute);
+    this.objectCollection = this.af.collection<T>(this.collectionRoute);
     return this.objectCollection
       // .valueChanges()
       .snapshotChanges()
