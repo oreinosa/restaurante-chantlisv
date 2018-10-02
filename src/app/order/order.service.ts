@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Product } from '../shared/models/product';
 import { Order } from '../shared/models/order';
 import { NotificationsService } from '../notifications/notifications.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root"
@@ -71,6 +71,7 @@ export class OrderService {
   }
 
   getMenus(from: Date, to: Date) {
+    console.log('Get menus from ', from.toString(), ' to ', to.toString());
     this.menusCol = this.af.collection<Menu>('menus',
       ref =>
         ref
@@ -81,6 +82,11 @@ export class OrderService {
     return this.menusCol
       .snapshotChanges()
       .pipe(
+        tap((documents => {
+          for (let document of documents) {
+            console.log('cache : ', document.payload.doc.metadata.fromCache);
+          }
+        })),
         map(actions => {
           return actions.map(a => {
             let data = a.payload.doc.data();

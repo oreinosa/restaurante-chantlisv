@@ -7,8 +7,8 @@ import { WorkplaceGuard } from '../auth/workplace.guard';
 
 const routes: Routes = [
   { path: 'menu', component: OrderComponent },
-  { path: 'menu/nueva-orden/:id', pathMatch: 'full', redirectTo: 'menu' },
-  { path: 'menu/nueva-orden/:id/paso/:step', component: NewOrderComponent, canActivate: [AuthGuard, WorkplaceGuard] },
+  { path: 'nueva-orden/:id', pathMatch: 'full', redirectTo: 'menu' },
+  { path: 'nueva-orden/:id/paso/:step', component: NewOrderComponent, canActivate: [AuthGuard, WorkplaceGuard] },
 ];
 
 @NgModule({

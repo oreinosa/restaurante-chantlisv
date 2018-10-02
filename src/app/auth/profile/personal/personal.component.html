@@ -1,38 +1,42 @@
-<!-- <ng-container *ngIf='$user | async as user'> -->
-<mat-card>
-  <!-- <mat-card-header>
+<ng-container *ngIf='user; else loadingUser'>
+  <mat-card>
+    <mat-card-header>
       <mat-card-title>
-        <h2></h2>
+        <h1>Perfil</h1>
       </mat-card-title>
-    </mat-card-header> -->
-  <mat-card-content>
-    <h4>
-      <b>ID: </b> {{ user.id }}
-    </h4>
-    <h4>
-      <b>Nombre: </b> {{ user.name }}
-    </h4>
-    <h4>
-      <b>Correo electrónico: </b> {{ user.email }}
-    </h4>
-    <h4>
-      <b>Rol: </b> {{ user.role }}
-    </h4>
-    <ng-container *ngIf='user?.workplace;else updateWorkplace'>
+    </mat-card-header>
+    <mat-card-content>
       <h4>
-        <b>Lugar de trabajo: </b> {{ user.workplace }}
+        <b>ID: </b> {{ user.id }}
       </h4>
-    </ng-container>
-    <ng-template #updateWorkplace>
       <h4>
-        <mat-form-field class='full-width'>
-          <mat-select placeholder="Lugar de trabajo" [formControl]='workplaceCtrl' required>
-            <mat-option *ngFor='let workplace of $workplaces | async' [value]='workplace.name'>{{ workplace.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <b>Nombre: </b> {{ user.name }}
       </h4>
-      <button mat-button type='button' (click)='onUpdateWorkplace(workplaceCtrl?.value)' [disabled]='workplaceCtrl?.invalid'>Actualizar lugar de trabajo</button>
-    </ng-template>
-  </mat-card-content>
-</mat-card>
-<!-- </ng-container> -->
+      <h4>
+        <b>Correo electrónico: </b> {{ user.email }}
+      </h4>
+      <h4>
+        <b>Rol: </b> {{ user.role }}
+      </h4>
+      <ng-container *ngIf='user?.workplace;else updateWorkplace'>
+        <h4>
+          <b>Lugar de trabajo: </b> {{ user.workplace }}
+        </h4>
+      </ng-container>
+      <ng-template #updateWorkplace>
+        <h4>
+          <mat-form-field class='full-width'>
+            <mat-select placeholder="Lugar de trabajo" [formControl]='workplaceCtrl' required>
+              <mat-option *ngFor='let workplace of $workplaces | async' [value]='workplace.name'>{{ workplace.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </h4>
+        <button mat-button type='button' (click)='onUpdateWorkplace(workplaceCtrl?.value)' [disabled]='workplaceCtrl?.invalid'>Actualizar
+          lugar de trabajo</button>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+<ng-template #loadingUser>
+  <mat-spinner class="mx-auto"></mat-spinner>
+</ng-template>
