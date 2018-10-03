@@ -8,19 +8,19 @@ import { DAO } from "./dao";
 
 export class Delete<T> implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
-  id: number;
+  id: string;
   constructor(
     public service: DAO<T>,
     public notifications: NotificationsService,
     public router: Router,
     public route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.paramMap
       .pipe(
         takeUntil(this.ngUnsubscribe),
-        map(params => +params.get("id")),
+        map(params => params.get("id")),
         tap(
           id =>
             !!id

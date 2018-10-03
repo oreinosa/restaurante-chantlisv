@@ -9,10 +9,8 @@ const routes: Routes = [
     component: AdminComponent,
     canActivate: [AdminGuard],
     children: [
-      {
-        path: "usuarios",
-        loadChildren: "./users/users.module#UsersModule"
-      },
+      { path: "usuarios", loadChildren: "./users/users.module#UsersModule" },
+      { path: "lugares-de-trabajo", loadChildren: "./workplaces/workplaces.module#WorkplacesModule" },
       { path: "", pathMatch: "full", redirectTo: "usuarios" }
     ]
   }

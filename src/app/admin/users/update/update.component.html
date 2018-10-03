@@ -11,7 +11,7 @@
           <input matInput type="text" placeholder='Nombre' [ngModel]='user.name' name='name' required [readonly]='f.submitted'>
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="text" placeholder='Teléfono' [ngModel]='user.phone' name='phone' required [readonly]='f.submitted'>
+          <input matInput type="email" placeholder='Correo electrónico' [ngModel]='user.email' name='email' required email [readonly]='f.submitted'>
         </mat-form-field>
         <mat-form-field>
           <mat-select placeholder='Rol' [ngModel]='user.role' name='role' [compareWith]='compareRoleFn' required [disabled]='f.submitted'>

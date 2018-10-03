@@ -29,7 +29,7 @@ export class AuthService {
     { label: "Registrarse", name: "registrarse", icon: "person_add" }
   ];
 
-  private adminRoutes = [
+  adminRoutes = [
     { label: "Usuarios", route: "usuarios", icon: "people" },
     { label: "Lugares de trabajo", route: "lugares-de-trabajo", icon: "domain" },
     { label: "Productos", route: "productos", icon: "fastfood" },

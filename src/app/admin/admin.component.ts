@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { Component, OnInit } from "@angular/core";
 
 @Component({
@@ -7,17 +8,11 @@ import { Component, OnInit } from "@angular/core";
 })
 export class AdminComponent implements OnInit {
   links: any[];
-  constructor() { }
+  constructor(
+    private auth: AuthService
+  ) { }
 
   ngOnInit() {
-    this.links = [
-      { label: "Usuarios", route: "usuarios", icon: "people" },
-      { label: "Roles", route: "roles", icon: "domain" },
-      { label: "FAQs", route: "faqs", icon: "question_answer" },
-      { label: "Categorías", route: "categorias", icon: "category" },
-      { label: "Presentaciones", route: "presentaciones", icon: "subscriptions" },
-      { label: "Sabores", route: "sabores", icon: "cloud" },
-      { label: "Cantidades de nicotina", route: "cantidades-nicotina", icon: "smoking_rooms" },
-    ];
+    this.links = this.auth.adminRoutes;
   }
 }

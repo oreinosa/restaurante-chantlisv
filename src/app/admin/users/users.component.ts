@@ -17,7 +17,7 @@ export class UsersComponent extends List<User> implements OnInit {
     super(
       service,
       router,
-      ["id", "reg_date", "name", "phone", "email", "role", "actions"]
+      ["id", "name", "email", "role", "actions"]
     );
   }
 
