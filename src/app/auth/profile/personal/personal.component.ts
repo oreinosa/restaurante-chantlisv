@@ -4,8 +4,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../../shared/models/user';
 import { WorkplacesService } from '../../../admin/workplaces/workplaces.service';
 import { Workplace } from '../../../shared/models/workplace';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-personal',
@@ -13,7 +14,8 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./personal.component.scss']
 })
 export class PersonalComponent implements OnInit {
-  @Input() user: User;
+  private ngUnsubscribe = new Subject();
+  user: User;
   $workplaces: Observable<Workplace[]>;
 
   workplaceCtrl = new FormControl();
@@ -25,6 +27,7 @@ export class PersonalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.authService.user.pipe(takeUntil(this.ngUnsubscribe)).subscribe((user: User) => this.user = user);
     this.$workplaces = this.workplacesService.getAll();
   }
 

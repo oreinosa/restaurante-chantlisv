@@ -59,7 +59,7 @@ export class AuthService {
 
   loggedIn(): Observable<boolean> {
     // return this.afAuth.auth.currentUser !== null;
-    return this.afAuth.authState.pipe(map(user => !!user));
+    return this.afAuth.authState.pipe(map(token => !!token));
   }
 
   sendForgotPasswordEmail(email: string) {

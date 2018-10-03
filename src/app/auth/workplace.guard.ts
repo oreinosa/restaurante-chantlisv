@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { map, take, skip, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { NotificationsService } from '../notifications/notifications.service';
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class WorkplaceGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router, private notService: NotificationsService) { }
   canActivate(
@@ -26,7 +28,7 @@ export class WorkplaceGuard implements CanActivate {
           if (!workplace) {
             // console.log("access denied");
             this.notService.show('Por favor, actualiza tu lugar de trabajo!', 'Acceso denegado', 'info');
-            this.router.navigate(['/perfil/personal']);
+            this.router.navigate(['/mi-cuenta/perfil']);
           }
           return true;
         })

@@ -5,7 +5,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Menu } from '../../shared/models/menu';
 import { Product } from '../../shared/models/product';
 import { DAOSubcollection } from '../../shared/helpers/dao-subcollection';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 
 @Injectable({

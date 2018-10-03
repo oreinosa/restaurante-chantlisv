@@ -13,7 +13,7 @@ import { User } from '../../shared/models/user';
 })
 export class ProfileComponent implements OnInit {
   links: any[];
-  $user: Observable<User>;
+  // $user: Observable<User>;
   action: string;
   constructor(
     private auth: AuthService,
@@ -25,10 +25,6 @@ export class ProfileComponent implements OnInit {
       { route: 'perfil', label: 'Perfil Chantlí SV', icon: 'person_pin' },
       { route: "ordenes", label: "Mis órdenes", icon: "shopping_cart" }
     ];
-    this.$user = this.auth.user;
-    this.route.paramMap.pipe(
-      map(params => params.get('action')),
-      tap(action => console.log(action)),
-    ).subscribe(action => this.action = action);
+    // this.$user = this.auth.loggedIn();
   }
 }
