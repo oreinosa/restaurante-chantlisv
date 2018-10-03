@@ -25,8 +25,7 @@
           </a>
           <mat-menu #subMenu="matMenu" xPosition='after' yPosition='below'>
             <button disabled mat-menu-item class='menu-subheader'>{{ link.label }}</button>
-            <button mat-menu-item *ngFor='let childrenLink of link.children' [routerLink]='[link.route, childrenLink.route]'
-              routerLinkActive='active'>
+            <button mat-menu-item *ngFor='let childrenLink of link.children' [routerLink]='[link.route, childrenLink.route]' routerLinkActive='active'>
               <mat-icon>{{ childrenLink.icon }}</mat-icon>
               {{ childrenLink.label }}
             </button>
@@ -54,8 +53,8 @@
           </a>
           <mat-menu #subMenu="matMenu" xPosition='after' yPosition='below'>
             <span class='app-action-submenu-label' mat-subheader>{{ action.label }}</span>
-            <button class='app-action-submenu-item' mat-menu-item *ngFor='let childrenAction of action.children'
-              [routerLink]='[action.name, childrenAction.route]' routerLinkActive='active'>
+            <button class='app-action-submenu-item' mat-menu-item *ngFor='let childrenAction of action.children' [routerLink]='[action.name, childrenAction.route]'
+              routerLinkActive='active'>
               <mat-icon>{{ childrenAction.icon }}</mat-icon>
               {{ childrenAction.label }}
             </button>
@@ -85,19 +84,25 @@
       <!-- LINKS -->
       <ng-container *ngFor='let link of links'>
         <ng-container *ngIf='!link?.children;else subMenuTemplate'>
-          <a mat-icon-button [matTooltip]='link?.label' class='app-link' [routerLink]='link.route' routerLinkActive='active'>
-            <mat-icon *ngIf='link?.icon'>{{ link.icon }}</mat-icon>
-          </a>
+          <ng-container *ngIf='overlay === "md"'>
+            <a mat-button [matTooltip]='link?.label' class='app-link' [routerLink]='link.route' routerLinkActive='active'>
+              <mat-icon *ngIf='link?.icon'>{{ link.icon }}</mat-icon>
+              {{ link.label }}
+            </a>
+          </ng-container>
+          <ng-container *ngIf='overlay === "sm"'>
+            <a mat-icon-button [matTooltip]='link?.label' class='app-link' [routerLink]='link.route' routerLinkActive='active'>
+              <mat-icon *ngIf='link?.icon'>{{ link.icon }}</mat-icon>
+            </a>
+          </ng-container>
         </ng-container>
         <ng-template #subMenuTemplate>
-          <a mat-icon-button [matTooltip]='link?.label' class='app-link' #menuTrigger='matMenuTrigger'
-            [matMenuTriggerFor]="subMenu">
+          <a mat-icon-button [matTooltip]='link?.label' class='app-link' #menuTrigger='matMenuTrigger' [matMenuTriggerFor]="subMenu">
             <mat-icon *ngIf='link?.icon'>{{ link.icon }}</mat-icon>
           </a>
           <mat-menu #subMenu="matMenu" xPosition='after' yPosition='below'>
             <button disabled mat-menu-item class='menu-subheader'>{{ link.label }}</button>
-            <button mat-menu-item *ngFor='let childrenLink of link.children' [routerLink]='[link.route, childrenLink.route]'
-              routerLinkActive='active'>
+            <button mat-menu-item *ngFor='let childrenLink of link.children' [routerLink]='[link.route, childrenLink.route]' routerLinkActive='active'>
               <mat-icon>{{ childrenLink.icon }}</mat-icon>
               {{ childrenLink.label }}
             </button>
@@ -118,14 +123,13 @@
         </ng-container>
         <!-- ACTION WITH SUBMENU -->
         <ng-template #subMenuTemplate>
-          <a mat-icon-button class='app-action' [matTooltip]='action?.label' #menuTrigger='matMenuTrigger'
-            [matMenuTriggerFor]="subMenu">
+          <a mat-icon-button class='app-action' [matTooltip]='action?.label' #menuTrigger='matMenuTrigger' [matMenuTriggerFor]="subMenu">
             <mat-icon *ngIf='action?.icon'>{{ action.icon }}</mat-icon>
           </a>
           <mat-menu #subMenu="matMenu" xPosition='after' yPosition='below'>
             <span class='app-action-submenu-label' mat-subheader>{{ action.label }}</span>
-            <button class='app-action-submenu-item' mat-menu-item *ngFor='let childrenAction of action.children'
-              [routerLink]='[action.name, childrenAction.route]' routerLinkActive='active'>
+            <button class='app-action-submenu-item' mat-menu-item *ngFor='let childrenAction of action.children' [routerLink]='[action.name, childrenAction.route]'
+              routerLinkActive='active'>
               <mat-icon>{{ childrenAction.icon }}</mat-icon>
               {{ childrenAction.label }}
             </button>

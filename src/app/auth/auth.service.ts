@@ -29,6 +29,13 @@ export class AuthService {
     { label: "Registrarse", name: "registrarse", icon: "person_add" }
   ];
 
+  private adminRoutes = [
+    { label: "Usuarios", route: "usuarios", icon: "people" },
+    { label: "Lugares de trabajo", route: "lugares-de-trabajo", icon: "domain" },
+    { label: "Productos", route: "productos", icon: "fastfood" },
+    { label: "Menús", route: "menus", icon: "restaurant_menu" },
+  ];
+
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
@@ -161,12 +168,7 @@ export class AuthService {
           label: "Admin",
           name: "admin",
           icon: "build",
-          children: [
-            { label: "Usuarios", route: "usuarios", icon: "people" },
-            { label: "Lugares de trabajo", route: "lugares-de-trabajo", icon: "domain" },
-            { label: "Productos", route: "productos", icon: "fastfood" },
-            { label: "Menús", route: "menus", icon: "restaurant_menu" },
-          ]
+          children: this.adminRoutes
         });
       case "Cliente":
         actions.push(

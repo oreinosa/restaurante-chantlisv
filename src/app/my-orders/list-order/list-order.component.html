@@ -88,11 +88,11 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   <ng-container *ngIf='loaded && !dataSource?.data?.length'>
-    <h5 class='text-center my-2'>No tienes ninguna orden
+    <h5 class='text-center mt-2'>No tienes ninguna orden
       <=-(</h5>
   </ng-container>
   <ng-container *ngIf='!loaded'>
-    <mat-spinner class="mx-auto my-3"></mat-spinner>
+    <mat-spinner diameter='45' class="mx-auto mt-2"></mat-spinner>
   </ng-container>
 </div>
 <mat-paginator [length]='dataSource?.data?.length' [pageSize]='limitSubject | async'></mat-paginator>
