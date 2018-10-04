@@ -3,6 +3,7 @@ import { NotificationsService } from "../../notifications/notifications.service"
 import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { DAO } from "./dao";
+import { capitalize } from "./capitalize";
 
 export class Create<T> {
   constructor(
@@ -18,15 +19,15 @@ export class Create<T> {
       (newObject) => {
         console.log(newObject);
         this.notifications.show(
-          `${this.service.className} agregado (ID: ${newObject.id})`,
-          this.service.collectionName,
+          `${capitalize(this.service.className)} agregado (ID: ${newObject.id})`,
+          capitalize(this.service.collectionName),
           "success"
         );
         this.router.navigate(["../"], { relativeTo: this.route });
       },
       e => {
         console.log(e.error);
-        this.notifications.show(e.error, this.service.collectionName, "danger");
+        this.notifications.show(e.error, capitalize(this.service.collectionName), "danger");
         form.resetForm();
       }
     );

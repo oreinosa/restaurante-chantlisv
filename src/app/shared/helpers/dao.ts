@@ -70,31 +70,31 @@ export abstract class DAO<T> {
 
   add(object: T, subcollection?: any[]): Promise<firebase.firestore.DocumentReference> {
     return this.objectCollection
-      .add(object)
-      .then(doc => {
-        this.notificationsService.show(`${capitalize(this.className)} agregado`, capitalize(this.collectionName), 'success');
-        return doc;
-      })
+      .add(object);
+      // .then(doc => {
+      //   this.notificationsService.show(`${capitalize(this.className)} agregado`, capitalize(this.collectionName), 'success');
+      //   return doc;
+      // })
   }
 
-  update(id: string, object: T, subcollection?: any[], deleted?: any[]): Promise<T> {
+  update(id: string, object: T, subcollection?: any[], deleted?: any[]): Promise<void> {
     // console.log(id);
     return this.objectCollection
       .doc(id)
-      .update(object)
-      .then(doc => {
-        this.notificationsService.show(`${capitalize(this.className)} editado`, capitalize(this.collectionName), 'info');
-        return object;
-      });
+      .update(object);
+      // .then(doc => {
+      //   this.notificationsService.show(`${capitalize(this.className)} editado`, capitalize(this.collectionName), 'info');
+      //   return object;
+      // });
   }
 
-  delete(id: string, subcollection?: any[]): Promise<string> {
+  delete(id: string, subcollection?: any[]): Promise<void> {
     return this.objectCollection
       .doc(id)
-      .delete()
-      .then(() => {
-        this.notificationsService.show(`${capitalize(this.className)} borrado`, capitalize(this.collectionName), 'danger');
-        return id;
-      });
+      .delete();
+      // .then(() => {
+      //   this.notificationsService.show(`${capitalize(this.className)} borrado`, capitalize(this.collectionName), 'danger');
+      //   return id;
+      // });
   }
 }

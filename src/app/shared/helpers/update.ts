@@ -5,6 +5,7 @@ import { Subject, BehaviorSubject } from "rxjs";
 import { NgForm } from "@angular/forms";
 import { NotificationsService } from "../../notifications/notifications.service";
 import { DAO } from "./dao";
+import { capitalize } from "./capitalize";
 
 export class Update<T> implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
@@ -51,16 +52,16 @@ export class Update<T> implements OnInit, OnDestroy {
     const object: T = form.value;
     this.service.update(this.id, object).
     then(
-      (editedObject: T) => {
-        // this.notifications.show(
-        //   `${this.service.className} actualizado`,
-        //   this.service.collectionName,
-        //   "success"
-        // );
+      () => {
+        this.notifications.show(
+          `${capitalize(this.service.className)} actualizado`,
+          capitalize(this.service.collectionName),
+          "success"
+        );
         this.router.navigate(["../../"], { relativeTo: this.route });
       },
       (e) => {
-        this.notifications.show(e.error, this.service.collectionName, "danger");
+        this.notifications.show(e.error, capitalize(this.service.collectionName), "danger");
         form.resetForm(object);
       }
     );

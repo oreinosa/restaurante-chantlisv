@@ -5,6 +5,7 @@ import { NotificationsService } from "../../notifications/notifications.service"
 import { HttpErrorResponse } from "@angular/common/http";
 import { Subject } from "rxjs";
 import { DAO } from "./dao";
+import { capitalize } from "./capitalize";
 
 export class Delete<T> implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
@@ -38,18 +39,18 @@ export class Delete<T> implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    // this.service.delete(this.id).subscribe(
-    //   () => {
-    //     this.notifications.show(
-    //       `${this.service.className} eliminado`,
-    //       this.service.collectionName,
-    //       "success"
-    //     );
-    //   },
-    //   (e: HttpErrorResponse) => {
-    //     this.notifications.show(e.error, this.service.collectionName, "danger");
-    //   },
-    //   () => this.router.navigate(["../../"], { relativeTo: this.route })
-    // );
+    this.service.delete(this.id).then(
+      () => {
+        this.notifications.show(
+          `${capitalize(this.service.className)} eliminado`,
+          capitalize(this.service.collectionName),
+          "success"
+        );
+        this.router.navigate(["../../"], { relativeTo: this.route });
+      },
+      (e: HttpErrorResponse) => {
+        this.notifications.show(e.error, capitalize(this.service.collectionName), "danger");
+      }
+    );
   }
 }
