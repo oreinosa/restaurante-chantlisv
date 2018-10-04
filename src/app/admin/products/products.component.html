@@ -9,6 +9,19 @@
   </mat-card-header>
   <mat-card-content>
     <button mat-button type='button' routerLink='agregar'>Agregar {{ service.className | lowercase }}</button>
+    <br><br>
+    <h6>
+      <mat-form-field class="full-width">
+        <mat-select matInput placeholder='Filtrar productos por categoría' [formControl]='categoryCtrl'>
+          <mat-option *ngFor='let category of categories' [value]='category'>{{ category }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </h6>
+    <h6>
+      <mat-form-field class="full-width">
+        <input matInput type="text" placeholder='Buscar producto' (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>
+    </h6>
     <div class="table-container">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z0" matSort>
         <!-- ID Column -->
@@ -30,10 +43,10 @@
         </ng-container>
 
         <!-- ImageURL Column -->
-        <ng-container matColumnDef="id">
+        <ng-container matColumnDef="imageURL">
           <th mat-header-cell *matHeaderCellDef> Imagen </th>
           <td mat-cell *matCellDef="let element">
-            <img [src]="element?.imageURL" [alt]="element?.name" class="img-fluid" style='height:150px;width:100px'>
+            <img [src]="element?.imageURL" [alt]="element?.name" class="img-fluid" style='height:150px;max-width:150px;'>
           </td>
         </ng-container>
 

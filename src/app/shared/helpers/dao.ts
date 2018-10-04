@@ -1,5 +1,5 @@
 import { Observable, BehaviorSubject } from "rxjs";
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, QueryFn } from '@angular/fire/firestore';
 import { NotificationsService } from "../../notifications/notifications.service";
 import * as firebase from 'firebase';
 import { map } from "rxjs/operators";
@@ -21,8 +21,9 @@ export abstract class DAO<T> {
     this.objectCollection = af.collection<T>(collectionRoute);
   }
 
-  getAll(): Observable<T[]> {
-    this.objectCollection = this.af.collection<T>(this.collectionRoute);
+  getAll(query?: QueryFn): Observable<T[]> {
+    if (!query) this.objectCollection = this.af.collection<T>(this.collectionRoute);
+    else this.objectCollection = this.af.collection<T>(this.collectionRoute, query);
     return this.objectCollection
       // .valueChanges()
       .snapshotChanges()

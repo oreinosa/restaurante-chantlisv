@@ -24,10 +24,17 @@ export class List<T> implements OnInit, OnDestroy {
   ngOnInit() {
     this.customSorting();
     this.dataSource.sort = this.sort;
-    // this.sort.sortChange.subscribe(sort => console.log(sort));
     this.dataSource.paginator = this.paginator;
     this.dataSource.paginator.pageSize = 10;
+    this.getAll();
+  }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  getAll() {
     this.service
       .getAll()
       .pipe(
@@ -38,11 +45,6 @@ export class List<T> implements OnInit, OnDestroy {
         })
       )
       .subscribe((objects: T[]) => (this.dataSource.data = objects));
-  }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 
   customSorting() { }

@@ -6,10 +6,37 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <ng-container *ngIf='object as workplace'>
+      <ng-container *ngIf='object as product'>
         <mat-form-field>
-          <input matInput type="text" placeholder='Nombre' [ngModel]='workplace.name' name='name' required [readonly]='f.submitted'>
+          <input matInput type="text" placeholder='Nombre' [ngModel]='product.name' name='name' required [readonly]='f.submitted'>
         </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder='Descripción' [ngModel]='product.description' name='description' id='description'
+            required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder='Categoría' [ngModel]='product.category' name='category' id='category' required>
+            <mat-option *ngFor='let category of categories' [value]='category'>
+              {{ category }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf='product.category === "Bebida"'>
+          <input matInput type="number" placeholder="Costo extra" [ngModel]='product.extra' name='extra' id='extra'
+            required min=0>
+        </mat-form-field>
+        <ng-container *ngIf='product.category === "Principal"'>
+          <p>
+            <mat-checkbox [ngModel]='product.noSides' name='noSides' id='noSides'>Sin acompañamiento?</mat-checkbox>
+          </p>
+          <p>
+            <mat-checkbox [ngModel]='product.noTortillas' name='noTortillas' id='noTortillas'>Sin tortillas?</mat-checkbox>
+          </p>
+        </ng-container>
+        <div>
+          <app-uploader #uploader [imageURL]='product?.imageURL'></app-uploader>
+          <input type="text" class='d-none' [ngModel]='product.imageURL' name='imageURL'>
+        </div>
       </ng-container>
     </mat-card-content>
     <mat-card-actions>

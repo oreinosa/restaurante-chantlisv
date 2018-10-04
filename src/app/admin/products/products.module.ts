@@ -6,9 +6,10 @@ import { ProductsComponent } from "./products.component";
 import { CreateComponent } from "./create/create.component";
 import { UpdateComponent } from "./update/update.component";
 import { DeleteComponent } from "./delete/delete.component";
+import { UploaderModule } from "../../uploader/uploader.module";
 
 @NgModule({
-  imports: [SharedModule, ProductsRoutingModule],
+  imports: [SharedModule, UploaderModule, ProductsRoutingModule],
   declarations: [
     ProductsComponent,
     CreateComponent,
