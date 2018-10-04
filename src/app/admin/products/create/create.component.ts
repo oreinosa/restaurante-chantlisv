@@ -1,9 +1,10 @@
-import { WorkplacesService } from "../workplaces.service";
+import { ProductsService } from "../products.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { NotificationsService } from "../../../notifications/notifications.service";
 import { Component } from "@angular/core";
-import { Workplace } from "../../../shared/models/workplace";
+import { Product } from "../../../shared/models/product";
 import { Create } from "../../../shared/helpers/create";
+
 @Component({
   selector: "app-create",
   templateUrl: "./create.component.html",
@@ -12,16 +13,16 @@ import { Create } from "../../../shared/helpers/create";
     "../../../shared/styles/crud-create.scss"
   ]
 })
-export class CreateComponent extends Create<Workplace> {
-  workplace = new Workplace();
+export class CreateComponent extends Create<Product> {
+  product = new Product();
 
   constructor(
-    public workplacesService: WorkplacesService,
+    public productsService: ProductsService,
     public router: Router,
     public route: ActivatedRoute,
     public notifications: NotificationsService,
   ) {
-    super(workplacesService, notifications, router, route);
+    super(productsService, notifications, router, route);
   }
 
 

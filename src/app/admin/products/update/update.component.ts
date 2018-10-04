@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { Workplace } from "../../../shared/models/workplace";
+import { Product } from "../../../shared/models/product";
 import { Router, ActivatedRoute } from "@angular/router";
-import { WorkplacesService } from "../workplaces.service";
+import { ProductsService } from "../products.service";
 import { NotificationsService } from "../../../notifications/notifications.service";
 import { Update } from "../../../shared/helpers/update";
 
@@ -13,9 +13,9 @@ import { Update } from "../../../shared/helpers/update";
     "../../../shared/styles/crud-update.scss"
   ]
 })
-export class UpdateComponent extends Update<Workplace> {
+export class UpdateComponent extends Update<Product> {
   constructor(
-    public service: WorkplacesService,
+    public service: ProductsService,
     public notifications: NotificationsService,
     public router: Router,
     public route: ActivatedRoute,
