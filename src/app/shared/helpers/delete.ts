@@ -8,7 +8,7 @@ import { DAO } from "./dao";
 import { capitalize } from "./capitalize";
 
 export class Delete<T> implements OnInit, OnDestroy {
-  private ngUnsubscribe = new Subject();
+  ngUnsubscribe = new Subject();
   id: string;
   constructor(
     public service: DAO<T>,

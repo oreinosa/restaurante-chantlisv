@@ -119,7 +119,7 @@ export class OrderService {
   }
 
   getBebidas() {
-    this.bebidasCol = this.af.collection('productos', ref => ref.where('category', '==', 'Bebida'));
+    this.bebidasCol = this.af.collection('products', ref => ref.where('category', '==', 'Bebida'));
     return this.bebidasCol
       .snapshotChanges()
       .pipe(

@@ -12,6 +12,7 @@ const routes: Routes = [
       { path: "usuarios", loadChildren: "./users/users.module#UsersModule" },
       { path: "lugares-de-trabajo", loadChildren: "./workplaces/workplaces.module#WorkplacesModule" },
       { path: "productos", loadChildren: "./products/products.module#ProductsModule" },
+      { path: "menus", loadChildren: "./menus/menus.module#MenusModule" },
       { path: "", pathMatch: "full", redirectTo: "usuarios" }
     ]
   }

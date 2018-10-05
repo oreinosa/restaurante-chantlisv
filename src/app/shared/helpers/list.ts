@@ -19,7 +19,14 @@ export class List<T> implements OnInit, OnDestroy {
     public service: DAO<T>,
     public router: Router,
     public displayedColumns: string[]
-  ) { }
+  ) {
+    if (true) {
+      let index = this.displayedColumns.indexOf("id");
+      if (index > -1) {
+        this.displayedColumns.splice(index, 1);
+      }
+    }
+  }
 
   ngOnInit() {
     this.customSorting();
@@ -55,6 +62,7 @@ export class List<T> implements OnInit, OnDestroy {
       id = object["id"];
       this.service.setSelectedObject(object);
     }
-    this.router.navigate(['admin', this.service.collectionName, action, id]);
+    let collectionName = this.service.collectionName.replace(/\s+/g, '-').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    this.router.navigate(['admin', collectionName, action, id]);
   }
 }

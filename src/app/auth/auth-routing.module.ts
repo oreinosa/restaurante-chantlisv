@@ -10,8 +10,8 @@ const routes: Routes = [
   { path: 'cuenta-verificada', component: AccountVerifiedComponent },
   {
     path: 'mi-cuenta', component: ProfileComponent, canActivate: [AuthGuard], children: [
-      { path: 'ordenes', loadChildren: "src/app/my-orders/my-orders.module#MyOrdersModule" },
-      { path: 'perfil', component: PersonalComponent }
+      { path: '', loadChildren: "src/app/my-orders/my-orders.module#MyOrdersModule" },
+      { path: '**', redirectTo: '' }
     ]
   },
 ];

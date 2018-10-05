@@ -36,8 +36,8 @@ export class MyOrdersService {
             data['id'] = a.payload.doc.id;
             return data;
           })
-        })
-      );
+        }),
+    );
   }
 
   get action(): Observable<Order> {

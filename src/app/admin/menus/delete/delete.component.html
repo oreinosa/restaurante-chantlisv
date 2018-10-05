@@ -1,0 +1,16 @@
+<mat-card *ngIf='service.className | lowercase as className'>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Eliminar {{ className }}</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>¿Seguro que quieres eliminar el {{ className }}
+      <b>{{ id }}</b>?
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button type='button' (click)='onSubmit()'>Eliminar</button>
+    <button mat-button type='button' routerLink='../../'>Cancelar</button>
+  </mat-card-actions>
+</mat-card>

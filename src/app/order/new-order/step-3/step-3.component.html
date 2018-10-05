@@ -1,7 +1,7 @@
 <mat-card *ngIf='menu' @fadeIn [ngClass]='editing ? "mat-elevation-z0" : ""'>
   <mat-card-header>
     <mat-card-title *ngIf='!editing'>
-      <h1>Confirmando orden para {{ menu.date.toDate().getDay() | dow  }}</h1>
+      <h1>Confirmando orden para {{ menu.date.toDate().getDay() | dow }}</h1>
     </mat-card-title>
     <mat-card-subtitle>
       <h3>Paso 3</h3>
@@ -9,7 +9,7 @@
   </mat-card-header>
   <mat-card-content>
     <div class="row text-center">
-      <div class="col-12 col-md-6 col-lg-4">
+      <div class="col-12 col-md-6 col-lg-4" *ngIf='principal'>
         <h3>Plato principal</h3>
         <figure>
           <img [src]="principal.imageURL" class="img-fluid img-thumbnail rounded">
@@ -18,7 +18,7 @@
         <p *ngIf='principal?.noSides'>(¡Este plato principal no lleva acompanamientos!)</p>
         <p *ngIf='principal?.noTortillas'>(¡Este plato principal no lleva tortillas!)</p>
       </div>
-      <div class="col-12 col-md-6 col-lg-4 col-xl-3" *ngIf='acompanamientos.length'>
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3" *ngIf='acompanamientos?.length'>
         <h3>Acompañamientos</h3>
         <div class="row">
           <div class="col-12" *ngFor='let acompanamiento of acompanamientos'>
@@ -31,11 +31,19 @@
       </div>
 
       <div class="col-12 col-md-6 col-lg-4">
-        <h3>Bebida</h3>
-        <figure>
-          <img [src]="bebida.imageURL" class="img-fluid img-thumbnail rounded">
-        </figure>
-        <p>{{ bebida.name }}</p>
+        <ng-container *ngIf='bebida; else sinBebida'>
+          <h3>Bebida</h3>
+          <figure>
+            <img [src]="bebida.imageURL" class="img-fluid img-thumbnail rounded">
+          </figure>
+          <p>{{ bebida.name }}</p>
+          <p>
+            <b>Precio : {{ bebida.extra | currency }}</b>
+          </p>
+        </ng-container>
+        <ng-template #sinBebida>
+          <h3>Sin bebida</h3>
+        </ng-template>
       </div>
       <div class="col-12">
         <ng-container *ngIf='!principal?.noTortillas'>

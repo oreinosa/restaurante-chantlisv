@@ -16,17 +16,11 @@ export class MyOrdersComponent implements OnInit {
   $user: Observable<User>;
 
   constructor(
-    private myOrdersService: MyOrdersService,
     private auth: AuthService
   ) { }
 
   ngOnInit() {
     this.$user = this.auth.user;
-    // this.auth
-    //   .user.pipe(
-    //     takeUntil(this.ngUnsubscribe),
-    //     tap(user => console.log(user)))
-    //   .subscribe(user => this.user = user)
   }
 
   // ngOnDestroy() {

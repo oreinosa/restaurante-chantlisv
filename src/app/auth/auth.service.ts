@@ -172,12 +172,7 @@ export class AuthService {
         });
       case "Cliente":
         actions.push(
-          {
-            label: "Mi cuenta", name: "mi-cuenta", icon: "account_circle", children: [
-              { label: 'Perfil', route: "perfil", icon: "person_pin" },
-              { label: "Mis órdenes", route: "ordenes", icon: "shopping_cart" }
-            ]
-          },
+          { label: "Mi cuenta", name: "mi-cuenta", icon: "account_circle" },
         );
         break;
       default:

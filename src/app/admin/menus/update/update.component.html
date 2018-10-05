@@ -1,0 +1,93 @@
+<form #f='ngForm' (ngSubmit)='onSubmit(f)'>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Actualizar {{ service.className | lowercase }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf='object'>
+        <div class="row">
+          <div class="col-12">
+            <div class="col-6 mx-auto">
+              <mat-form-field *ngIf='getMenuDateString(object.date) as dateString'>
+                <input matInput [matDatepicker]="picker" placeholder="Fecha" [ngModel]='dateString' name='date' id='date' required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput type='number' placeholder='Precio' [ngModel]='object.price' name='price' id='price' required>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-12 col-sm-4">
+            <h5>Agregar producto</h5>
+            <mat-form-field *ngIf='products; else loadingProducts' style='width:100%'>
+              <input matInput placeholder="Productos" [matAutocomplete]="auto" [formControl]="productCtrl" name='product'>
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)='selectProduct($event.option.value)' [displayWith]='displayProductFn'>
+                <mat-option *ngFor="let product of filteredProducts | async" [value]="product">
+                  <span>{{ product.name }}</span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <button type='button' mat-button (click)='addToSubcollection();productCtrl.setValue("")' [disabled]='!selectedSubcollectionObject'>
+              <mat-icon>add</mat-icon>
+              Agregar
+            </button>
+            <ng-template #loadingProducts>
+              <mat-spinner></mat-spinner>
+            </ng-template>
+          </div>
+          <div class="col-12 col-sm-8">
+            <div class="row">
+              <ng-container *ngIf='selectedSubcollectionObjects | editingSubcollection:object?.productos:refresh as productsSelected; else noAddedProducts'>
+                <div class="col-12">
+                  <h5>Productos agregados</h5>
+                </div>
+                <div class="col-12 col-sm-6" *ngIf='productsSelected | productsByCategory:"Principal":refresh as principales'>
+                  <h6>Platos principales</h6>
+                  <div *ngFor='let product of principales'>
+                    <p class='product-name' [ngClass]='product?.notAvailable ? "not-available" : "available"'>
+                      {{ product.name }}
+                    </p>
+                    <button type='button' mat-icon-button matTooltip='Borrar' (click)='removeFromSubcollection(product.id)'>
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button type='button' mat-icon-button matTooltip="Pasar a {{(product?.notAvailable ? ' disponible ' : 'no disponible ')}}"
+                      (click)='toggleNotAvailable(product, !(!!product?.notAvailable))'>
+                      <mat-icon>{{ product?.notAvailable ? "done" : "clear" }}</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6" *ngIf='productsSelected | productsByCategory:"Acompañamiento":refresh as acomp'>
+                  <h6>Acompañamientos</h6>
+                  <div *ngFor='let product of acomp'>
+                    <p class='product-name' [ngClass]='product?.notAvailable ? "not-available" : "available"'>
+                      {{ product.name }}
+                    </p>
+                    <button type='button' mat-icon-button matTooltip='Borrar' (click)='removeFromSubcollection(product.id)'>
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button type='button' mat-icon-button matTooltip="Pasar a {{(product?.notAvailable ? ' disponible ' : 'no disponible ')}}"
+                      (click)='toggleNotAvailable(product, !(!!product?.notAvailable))'>
+                      <mat-icon>{{ product?.notAvailable ? "done" : "clear" }}</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #noAddedProducts>
+                <div class="col-12">
+                  <p>No has agregado productos.</p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type='submit' [disabled]='f.invalid || f.submitted'>Actualizar</button>
+      <button mat-button type='button' routerLink='../../' [disabled]='f.submitted'>Cancelar</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

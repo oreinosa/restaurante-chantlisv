@@ -1,3 +1,4 @@
+import { EditingSubcollectionPipe } from './pipes/editing-subcollection.pipe';
 import { CalTotalPipe } from './pipes/cal-total.pipe';
 import { SelectedPipe } from './pipes/selected.pipe';
 import { DowPipe } from './pipes/dow.pipe';
@@ -71,6 +72,7 @@ import { SpanishDatePipe } from './pipes/spanish-date.pipe';
     CommonModule,
     CapitalizePipe,
     ShowImagePipe,
+    EditingSubcollectionPipe,
     GetMenuProductsPipe,
     ProductsByCategoryPipe,
     DowPipe,
@@ -110,6 +112,7 @@ import { SpanishDatePipe } from './pipes/spanish-date.pipe';
     GetMenuProductsPipe,
     ShowImagePipe,
     ProductsByCategoryPipe,
+    EditingSubcollectionPipe,
     DowPipe,
     SelectedPipe,
     CalTotalPipe,

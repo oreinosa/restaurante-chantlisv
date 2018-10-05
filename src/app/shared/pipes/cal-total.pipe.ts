@@ -8,7 +8,7 @@ export class CalTotalPipe implements PipeTransform {
 
   transform(menuPrice: number, bebida?: Product, tortillas?: number): number {
     let total: number = menuPrice;
-    if (bebida.extra) total += bebida.extra;
+    if (bebida && bebida.extra) total += bebida.extra;
     if (tortillas > 2) total += 0.1 * (tortillas - 2);
     return total;
   }

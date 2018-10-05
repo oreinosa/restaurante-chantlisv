@@ -14,7 +14,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class Step2Component implements OnInit {
   @Input() editing: boolean = false;
-
   @Input() menu: Menu;
   @Input() bebida: Product;
   @Output() select = new EventEmitter<Product>();

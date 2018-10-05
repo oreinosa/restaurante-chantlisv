@@ -1,23 +1,26 @@
 <div class="row">
-  <div class="col-12">
+  <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
     <mat-card>
       <mat-card-header>
         <mat-card-title>
-          <h1>Mis órdenes</h1>
+          <h1>Balance</h1>
         </mat-card-title>
         <mat-card-subtitle>
           <ng-container *ngIf='$user | async as user; else loadingUser'>
-            <h3>Total pendiente : {{ user?.debit | currency }}</h3>
-            <h3>Total crédito : {{ user?.credit | currency }}</h3>
+            <h3>Pendiente : {{ user?.debit | currency }}</h3>
+            <h3>Crédito : {{ user?.credit | currency }}</h3>
           </ng-container>
+          <ng-template #loadingUser>
+            <mat-spinner class="mx-auto"></mat-spinner>
+          </ng-template>
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <router-outlet></router-outlet>
-        <ng-template #loadingUser>
-          <mat-spinner class="mx-auto"></mat-spinner>
-        </ng-template>
       </mat-card-content>
     </mat-card>
+  </div>
+  <div class="col-12 my-2">
+    <app-list-order></app-list-order>
   </div>
 </div>

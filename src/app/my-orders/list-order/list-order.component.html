@@ -1,98 +1,110 @@
-<h6 *ngIf='loaded && dataSource?.data?.length'>
-  Mostrando las últimas
-  <mat-form-field style='max-width: 50px;' class='mx-2'>
-    <mat-select (selectionChange)='onSelectLimit($event.value)' [value]='10'>
-      <mat-option *ngFor='let limit of limits' [value]='limit'>{{ limit }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  órdenes
-</h6>
-<div class='table-container'>
-  <mat-table #table matSort [dataSource]="dataSource" class='data-table'>
-    <!-- Products Column -->
-    <ng-container matColumnDef="products">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Productos </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <p>{{element.products.principal}}</p>
-        <p *ngFor='let ac of element.products.acompanamientos'>
-          {{ ac }}
-        </p>
-        <p> {{ element.tortillas + 'tortilla' + element.tortillas > 1 ? 's' : '' }} </p>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Date Column -->
-    <ng-container matColumnDef="date">
-      <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <p> {{ element.date.for.toDate() | spanishDate }}</p>
-        <p>Ordenado el {{ element.date.by.toDate() | spanishDate:"longTime" }}</p>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Price Column -->
-    <ng-container matColumnDef="price">
-      <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <p> {{ element.price | currency }} </p>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Status Column -->
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <p> {{ element.status }} </p>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Paid Column -->
-    <ng-container matColumnDef="paid">
-      <mat-header-cell *matHeaderCellDef> Pago </mat-header-cell>
-      <mat-cell *matCellDef="let element" class='text-center'>
-        <ng-container *ngIf='!element?.cancelled;else cancelledDate'>
-          <mat-icon [ngClass]='!!element?.paid?.flag ? "paid" : "pending"'>{{ !!element?.paid?.flag ? "check_circle" : "highlight_off"}}</mat-icon>
-          <p *ngIf='element?.paid?.by?.toDate() as date'>
-            {{ date | spanishDate:"longTime" }}
-          </p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Mis órdenes</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h6>
+        Mostrando las últimas
+        <mat-form-field style='max-width: 50px;' class='mx-2'>
+          <mat-select [formControl]='limitCtrl'>
+            <mat-option *ngFor='let limit of limits' [value]='limit'>{{ limit }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        órdenes
+      </h6>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class='table-container' *ngIf='loaded && dataSource?.data?.length'>
+      <mat-table #table matSort [dataSource]="dataSource" class='data-table'>
+        <!-- Products Column -->
+        <ng-container matColumnDef="products">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Productos </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <p>{{element.products.principal}}</p>
+            <p *ngFor='let ac of element.products.acompanamientos'>
+              {{ ac }}
+            </p>
+            <p> {{ element.tortillas + 'tortilla' + element.tortillas > 1 ? 's' : '' }} </p>
+            <p *ngIf='element.products.bebida'>{{element.products.bebida}}</p>
+          </mat-cell>
         </ng-container>
-        <ng-template #cancelledDate>
-          <p>
-            Cancelado el {{ element.cancelled.toDate() | spanishDate:"longTime" }}
-          </p>
-        </ng-template>
 
-      </mat-cell>
-    </ng-container>
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <p>Para el {{ element.date.for.toDate() | spanishDate }}</p>
+            <p>Ordenado el {{ element.date.by.toDate() | spanishDate:"longTime" }}</p>
+          </mat-cell>
+        </ng-container>
 
-    <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <button type='button' mat-icon-button matTooltip='Editar' *ngIf='element.status === "Nueva orden"' (click)='onAction("editar",element)'
-          [disabled]='offline'>
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button type='button' mat-icon-button matTooltip='Cancelar' *ngIf='(element.status ==  "Nueva orden")' (click)='onAction("cancelar",element)'
-          [disabled]='offline'>
-          <mat-icon>cancel</mat-icon>
-        </button>
-        <button type='button' mat-icon-button matTooltip='Comentario' *ngIf='element.status === "Entregado"' (click)='onAction("comentar",element)'
-          [disabled]='offline'>
-          <mat-icon>feedback</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <p> {{ element.price | currency }} </p>
+          </mat-cell>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-  <ng-container *ngIf='loaded && !dataSource?.data?.length'>
-    <h5 class='text-center mt-2'>No tienes ninguna orden
-      <=-(</h5>
-  </ng-container>
-  <ng-container *ngIf='!loaded'>
-    <mat-spinner diameter='45' class="mx-auto mt-2"></mat-spinner>
-  </ng-container>
-</div>
-<mat-paginator [length]='dataSource?.data?.length' [pageSize]='limitSubject | async'></mat-paginator>
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <p> {{ element.status }} </p>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Paid Column -->
+        <ng-container matColumnDef="paid">
+          <mat-header-cell *matHeaderCellDef> Pago </mat-header-cell>
+          <mat-cell *matCellDef="let element" class='text-center'>
+            <ng-container *ngIf='!element?.cancelled;else cancelledDate'>
+              <mat-icon [ngClass]='!!element?.paid?.flag ? "paid" : "pending"'>{{ !!element?.paid?.flag ? "check_circle" : "highlight_off"}}</mat-icon>
+              <p *ngIf='element?.paid?.by?.toDate() as date'>
+                {{ date | spanishDate:"longTime" }}
+              </p>
+            </ng-container>
+            <ng-template #cancelledDate>
+              <p>
+                Cancelado el {{ element.cancelled.toDate() | spanishDate:"longTime" }}
+              </p>
+            </ng-template>
+
+          </mat-cell>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button type='button' mat-icon-button matTooltip='Editar' *ngIf='element.status === "Nueva orden"' (click)='onAction("editar",element)'
+              [disabled]='offline'>
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button type='button' mat-icon-button matTooltip='Cancelar' *ngIf='(element.status ==  "Nueva orden")' (click)='onAction("cancelar",element)'
+              [disabled]='offline'>
+              <mat-icon>cancel</mat-icon>
+            </button>
+            <button type='button' mat-icon-button matTooltip='Comentario' *ngIf='element.status === "Entregado"' (click)='onAction("comentar",element)'
+              [disabled]='offline'>
+              <mat-icon>feedback</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <ng-container *ngIf='loaded && !dataSource?.data?.length'>
+        <h5 class='text-center mt-2'>No tienes ninguna orden
+          <=-(</h5>
+      </ng-container>
+      <ng-container *ngIf='!loaded'>
+        <mat-spinner diameter='45' class="mx-auto mt-2"></mat-spinner>
+      </ng-container>
+      <mat-paginator [length]='dataSource?.data?.length' [pageSize]='limitSubject | async'></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

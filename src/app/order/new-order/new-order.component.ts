@@ -32,12 +32,10 @@ export class NewOrderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.newOrder = new NewOrder({ principal: null, acompanamientos: [], bebida: null });
 
     this.authService
       .user
-      .pipe(
-        take(1)
-      )
       .subscribe(user => this.user = user);
 
     this.route
@@ -48,9 +46,19 @@ export class NewOrderComponent implements OnInit {
         switchMap(params => this.orderService.getMenu(params.get('id'))),
         tap(menu => !!menu ? false : this.router.navigate(['menu']))
       )
-      .subscribe(menu => this.menu = menu);
+      .subscribe(menu => {
+        this.menu = menu;
+        switch (this.step) {
+          case 2:
+          case 3:
+          case 4:
+            if (!this.newOrder.products.principal) {
+              this.router.navigate(['nueva-orden', this.menu.id, 'paso', 1]);
+            }
+            break;
+        }
+      });
 
-    this.newOrder = new NewOrder({ principal: null, acompanamientos: [], bebida: null });
   }
 
   ngOnDestroy() {
@@ -70,16 +78,12 @@ export class NewOrderComponent implements OnInit {
   }
 
   onConfirm(tortillas: number, price: number) {
-    let products = this.newOrder.products;
-    let acompanamientos: string[] = products.acompanamientos.map(product => product.name);
     let orderedBy = firebaseApp.firestore.Timestamp.fromDate(new Date());
     // orderedBy.setUTCHours(12, 0, 0);
-
+    let products = this.newOrder.products;
     let order: Order = {
       products: {
-        principal: products.principal.name,
-        acompanamientos: acompanamientos,
-        bebida: products.bebida.name,
+        principal: products.principal.name
       },
       tortillas: tortillas,
       price: price,
@@ -97,6 +101,14 @@ export class NewOrderComponent implements OnInit {
         flag: false
       }
     };
+    if (products.acompanamientos) {
+      let acompanamientos: string[] = products.acompanamientos.map(product => product.name);
+      order.products.acompanamientos = acompanamientos;
+    }
+    let bebida = products.bebida;
+    if (bebida) {
+      order.products.bebida = bebida.name;
+    }
 
     if (products.principal.noSides) {
       delete order.products.acompanamientos;

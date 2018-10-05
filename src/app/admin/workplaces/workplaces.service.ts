@@ -13,6 +13,6 @@ export class WorkplacesService extends DAO<Workplace> {
     public af: AngularFirestore,
     public notifications: NotificationsService
   ) {
-    super("Lugar de trabajo", "Lugares de trabajo", "workplaces", af, notifications);
-   }
+    super("lugar de trabajo", "lugares de trabajo", "workplaces", af, notifications);
+  }
 }

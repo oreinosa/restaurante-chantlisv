@@ -12,19 +12,10 @@ import { User } from '../../shared/models/user';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  links: any[];
-  // $user: Observable<User>;
-  action: string;
+
   constructor(
-    private auth: AuthService,
-    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.links = [
-      { route: 'perfil', label: 'Perfil Chantlí SV', icon: 'person_pin' },
-      { route: "ordenes", label: "Mis órdenes", icon: "shopping_cart" }
-    ];
-    // this.$user = this.auth.loggedIn();
   }
 }

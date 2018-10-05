@@ -34,7 +34,7 @@ export class UpdateComponent extends Update<Product> {
 
   onSubmit(form: NgForm) {
     const controls = form.controls;
-    if (controls.extra && controls.extra.value === 0) controls.extra.disable();
+    if (controls.extra && (controls.extra.value === 0 && !this.object.extra)) controls.extra.disable();
     if (controls.noSides && controls.noSides.value === undefined) controls.noSides.disable();
     if (controls.noTortillas && controls.noTortillas.value === undefined) controls.noTortillas.disable();
 
@@ -44,7 +44,7 @@ export class UpdateComponent extends Update<Product> {
         .then(imageURL => form.controls.imageURL.setValue(imageURL))
         .then(() => super.onSubmit(form));
     }
-    console.log('image not edited')
+    console.log('image not edited');
     return super.onSubmit(form);
   }
 

@@ -8,11 +8,12 @@ import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationsService } from '../../notifications/notifications.service';
 import { takeUntil, tap, switchMap, map, filter } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-list-order',
   templateUrl: './list-order.component.html',
-  styleUrls: ['./list-order.component.scss', '../../admin/admin-table.css']
+  styleUrls: ['../../admin/admin-table.css', './list-order.component.scss',]
 })
 export class ListOrderComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
@@ -21,8 +22,8 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   loaded = false;
 
   user: User;
-  limitSubject: BehaviorSubject<number>;
-  limits: number[] = [];
+  limitCtrl = new FormControl(0);
+  limits: number[];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -41,8 +42,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
 
-    this.limits = [5, 10, 30];
-    this.limitSubject = new BehaviorSubject<number>(10)
+    this.limits = [0, 5, 10, 30];
 
     this.auth
       .user.pipe(
@@ -52,7 +52,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
           // console.log(user);
           this.user = user;
         }),
-        switchMap(() => this.limitSubject),
+        switchMap(() => this.limitCtrl.valueChanges),
         takeUntil(this.ngUnsubscribe),
         tap(limit => {
           console.log('limit to ', limit);
@@ -85,11 +85,6 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
-  onSelectLimit(limit: number) {
-    this.limitSubject.next(limit);
-  }
-
   onAction(name: string, object: Order) {
     this.myOrdersService.onAction(object);
     console.log('action ', name);

@@ -8,7 +8,7 @@ import { DAO } from "./dao";
 import { capitalize } from "./capitalize";
 
 export class Update<T> implements OnInit, OnDestroy {
-  private ngUnsubscribe = new Subject();
+  ngUnsubscribe = new Subject();
   object: T;
   id: string;
 
@@ -50,8 +50,7 @@ export class Update<T> implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     const object: T = form.value;
-    this.service.update(this.id, object).
-    then(
+    this.service.update(this.id, object).then(
       () => {
         this.notifications.show(
           `${capitalize(this.service.className)} actualizado`,

@@ -36,6 +36,6 @@ export abstract class MyOrder implements OnInit, OnDestroy {
   }
 
   onBack(): void {
-    this.router.navigate(['mis-ordenes']);
+    this.router.navigate(['mi-cuenta', 'ordenes']);
   }
 }

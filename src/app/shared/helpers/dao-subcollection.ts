@@ -6,13 +6,13 @@ import * as firebase from 'firebase';
 import { map } from "rxjs/operators";
 
 export abstract class DAOSubcollection<T, S> extends DAO<T>{
-  object = new BehaviorSubject<T>(null);
+  // object = new BehaviorSubject<T>(null);
   objectCollection: AngularFirestoreCollection<T>;
 
   constructor(
-    public collectionRoute: string,
     public className: string,
     public collectionName: string,
+    public collectionRoute: string,
     public af: AngularFirestore,
     public notificationsService: NotificationsService,
     public subCollectionName: string,
@@ -26,7 +26,7 @@ export abstract class DAOSubcollection<T, S> extends DAO<T>{
   // }
 
   getSubcollection(id: string): Observable<S[]> {
-    let subCollection: AngularFirestoreCollection<S> = this.objectCollection.doc(id).collection(this.subCollectionName);
+    let subCollection: AngularFirestoreCollection<S> = this.objectCollection.doc(id).collection(this.subCollectionRoute);
     return subCollection
       .snapshotChanges()
       .pipe(
@@ -47,7 +47,7 @@ export abstract class DAOSubcollection<T, S> extends DAO<T>{
       .add(object)
       .then(doc => {
         // console.log(doc);
-        let objectSubCollection = this.objectCollection.doc(doc['id']).collection<S>(this.subCollectionName);
+        let objectSubCollection = this.objectCollection.doc(doc['id']).collection<S>(this.subCollectionRoute);
         let batch = this.af.firestore.batch();
         subCollection.forEach(_object => {
           const id = this.af.createId();
@@ -58,12 +58,12 @@ export abstract class DAOSubcollection<T, S> extends DAO<T>{
       })
   }
 
-  update(id: string, object: T, subCollection: S[], deletedSubCollection: S[]): Promise<T> {
+  update(id: string, object: T, subCollection: any[], deletedSubCollection: any[]): Promise<void> {
     return super
       .update(id, object)
       .then(doc => {
         let batch = this.af.firestore.batch();
-        let objectSubCollection = this.objectCollection.doc(id).collection<S>(this.subCollectionName);
+        let objectSubCollection = this.objectCollection.doc(id).collection<S>(this.subCollectionRoute);
         let ref;
         subCollection.forEach(_object => {
           const id = this.af.createId();
@@ -74,11 +74,11 @@ export abstract class DAOSubcollection<T, S> extends DAO<T>{
           ref = objectSubCollection.doc(_object['id']).ref;
           batch.delete(ref);
         });
-        return batch.commit().then(() => object);
+        return batch.commit();
       })
   }
 
-  delete(id: string, subCollection: S[]) {
+  delete(id: string, subCollection: any[]) :Promise<void>{
     return super.
       delete(id)
       .then(() => {
@@ -89,7 +89,7 @@ export abstract class DAOSubcollection<T, S> extends DAO<T>{
           ref = objectSubCollection.doc(_object['id']).ref;
           batch.delete(ref);
         });
-        return batch.commit().then(() => id);
+        return batch.commit();
       })
   }
 

@@ -1,3 +1,4 @@
+import { capitalize } from './../../shared/helpers/methods';
 import { Observable } from 'rxjs';
 import { NotificationsService } from './../../notifications/notifications.service';
 import { Injectable } from '@angular/core';
@@ -17,7 +18,7 @@ export class MenusService extends DAOSubcollection<Menu, Product> {
     public af: AngularFirestore,
     public notificationsService: NotificationsService
   ) {
-    super('menus', 'Menú', 'Menús', af, notificationsService, 'Productos', 'products');
+    super('menú', 'menús', 'menus', af, notificationsService, 'productos', 'products');
   }
 
   getAll(): Observable<Menu[]> {
@@ -61,16 +62,16 @@ export class MenusService extends DAOSubcollection<Menu, Product> {
     return this.objectCollection.doc(id)
       .set({ available: flag }, { merge: true })
       .then(() => this.notificationsService
-        .show(`Menu ${id} ${flag ? "disponible" : "cerrado"}`, this.collectionName, `${flag ? "success" : "warning"}`));
+        .show(`Menu ${id} ${flag ? "disponible" : "cerrado"}`, capitalize(this.collectionName), `${flag ? "success" : "warning"}`));
   }
 
-  toggleNotAvailable(menuId: string, productId: string, flag: boolean): Promise<void> {
+  toggleNotAvailable(menuId: string, product: Product, flag: boolean): Promise<void> {
     return this.objectCollection
       .doc(menuId)
       .collection(this.subCollectionRoute)
-      .doc(productId)
+      .doc(product.id)
       .set({ notAvailable: flag }, { merge: true })
       .then(() => this.notificationsService
-        .show(`Producto ${productId} de menu ${menuId} ${flag ? "disponible" : "se acabó"}`, this.collectionName, `${flag ? "success" : "warning"}`));
+        .show(`${capitalize(product.name)} ${flag ? "disponible" : "se acabó"}`, capitalize(this.collectionName), `${flag ? "success" : "warning"}`));
   }
 }
