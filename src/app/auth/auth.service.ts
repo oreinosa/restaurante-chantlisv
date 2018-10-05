@@ -160,8 +160,8 @@ export class AuthService {
     switch (role) {
       case "Admin":
         actions.push({
-          label: "Pedidos",
-          route: "pedidos",
+          label: "Órdenes",
+          name: "ordenes",
           icon: "assignment_late"
         });
         actions.push({

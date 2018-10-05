@@ -24,8 +24,13 @@
             </ng-container>
           </h5>
           <h5>
-            <b>Bebida </b>
-            <br> {{ order.products.bebida }}
+            <ng-container *ngIf='order.products?.bebida; else noBebida'>
+              <b>Bebida </b>
+              <br> {{ order.products.bebida }}
+            </ng-container>
+            <ng-template #noBebida>
+              <b>Sin bebida</b>
+            </ng-template>
           </h5>
           <h5 *ngIf='order?.tortillas'>
             {{ order.tortillas + ' tortilla' + ( order.tortillas > 1 ? 's' : '')}}

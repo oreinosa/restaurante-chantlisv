@@ -15,7 +15,7 @@ const routes: Routes = [
       { path: 'editar/:id/paso/:step', component: EditOrderComponent },
       { path: 'cancelar/:id', component: CancelOrderComponent },
       { path: 'comentar/:id', component: FeedbackOrderComponent },
-      // { path: '', pathMatch: 'full', component: ListOrderComponent }
+      { path: '', pathMatch: 'full', component: ListOrderComponent }
     ]
   },
 ];

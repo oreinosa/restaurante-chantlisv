@@ -37,7 +37,7 @@ export class MyOrdersService {
             return data;
           })
         }),
-    );
+      );
   }
 
   get action(): Observable<Order> {
@@ -54,11 +54,14 @@ export class MyOrdersService {
       .update(editedOrder)
       .then(() => {
         if (user) {
+          let debit = user.debit.toFixed(2);
+          let credit = user.credit.toFixed(2);
+
           this.af
-            .collection<User>('usuarios')
+            .collection<User>('users')
             .doc(user.id)
             .update(user)
-            .then(() => this.notifications.show(`Balance actualizado :  Pendiente : $${user.debit} - Crédito $${user.credit}`, 'Mis órdenes', 'success'))
+            .then(() => this.notifications.show(`Balance actualizado :  Pendiente : $${debit} - Crédito $${credit}`, 'Mis órdenes', 'success'))
         }
       })
       .then(() => this.notifications.show('Orden editada', 'Mis órdenes', 'success'));

@@ -1,0 +1,35 @@
+@import "./src/_colors";
+
+.mat-form-field{
+  width:100%;
+}
+// .mat-column-user {
+//   flex: 0 0 15%;
+// }
+// .mat-column-principal {
+//   flex: 0 0 15%;
+// }
+// .mat-column-acompanamientos {
+//   flex: 0 0 20%;
+// }
+// .mat-column-bebida {
+//   flex: 0 0 15%;
+// }
+// .mat-column-date {
+//   flex: 0 0 15%;
+// }
+// .mat-column-actions {
+//   flex: 0 0 15%;
+// }
+.mat-row.cancelled{
+  background-color: $danger-light;
+}
+.mat-cell{
+  display: block;
+}
+.mat-table{
+  min-width: 900px;
+}
+.mat-card{
+  margin-bottom: 10px;
+}

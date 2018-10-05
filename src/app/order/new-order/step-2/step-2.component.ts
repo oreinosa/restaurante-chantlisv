@@ -34,7 +34,11 @@ export class Step2Component implements OnInit {
   }
 
   onSelectBebida(bebida: Product) {
-    this.bebida = bebida;
+    if(this.bebida && this.bebida == bebida){
+      this.bebida = null;
+    }else{
+      this.bebida = bebida;
+    }
   }
 
   onSelect() {

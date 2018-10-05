@@ -1,0 +1,153 @@
+<div class="row">
+  <div class="col-12 mb-3">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h2>Buscar usuario para pagar platos</h2>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <!-- WORKPLACES FILTER -->
+          <div class="col-12 col-sm-6 col-md-4">
+            <mat-form-field class='full-width'>
+              <mat-select placeholder='Lugar de trabajo' [formControl]='selectedWorkplaceCtrl' (selectionChange)='filterByWorkplace(selectedWorkplaceCtrl.value);selectedUserCtrl.setValue("");selectPayingUser(null);selectAllFromWorkplace(true)'>
+                <mat-option *ngFor='let workplace of workplaces' [value]='workplace.name'>{{ workplace.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-button-toggle class='my-2' [checked]='allFromWorkplace' (change)='selectAllFromWorkplace(allFromWorkplace)'>
+              Todos los clientes de {{ selectedWorkplaceCtrl.value }} ?
+            </mat-button-toggle>
+          </div>
+          <!-- USERS AUTOCOMPLETE FILTER -->
+          <div class="col-12 col-sm-6 col-md-4">
+            <mat-form-field class='full-width'>
+              <input matInput placeholder="Clientes" [matAutocomplete]="auto" [formControl]="selectedUserCtrl">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='selectPayingUser($event.option?.value)'>
+                <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+                  {{ user.name }}
+                </mat-option>
+                <!-- <ng-container *ngIf='users; else loadingUsers'>
+          <mat-spinner class="mx-auto"></mat-spinner>
+        </ng-container> -->
+              </mat-autocomplete>
+            </mat-form-field>
+            <button mat-button type='button' (click)='selectedUserCtrl.setValue("");selectPayingUser(null)' [disabled]='allFromWorkplace'>
+              Reset
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-12 text-center">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h3>Ordenes pendientes</h3>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ng-container *ngIf='payingUser && dataSource?.data?.length'>
+          <ng-container *ngIf='!paying;else loadingPayment'>
+            <div class="col-12 col-sm-8 col-md-4 mx-auto">
+              <h5>Pagar pedidos</h5>
+              <mat-form-field class='full-width'>
+                <input matInput type="number" placeholder='Total a pagar' [(ngModel)]='totalDue' readonly>
+              </mat-form-field>
+              <mat-form-field class='full-width'>
+                <input matInput type="number" placeholder='Paga con' [(ngModel)]='payment' (change)='calculateChange()' min='0' step='0.1' [disabled]='(totalDue <= payingUser.credit)'>
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput type="number" placeholder='Credito' [ngModel]='payingUser.credit' readonly>
+              </mat-form-field>
+              <mat-form-field class='full-width'>
+                <input matInput type="number" placeholder='Cambio' [(ngModel)]='change' readonly>
+              </mat-form-field>
+              <p *ngIf='change > 0 && this.payment > 0'>
+                <mat-checkbox [(ngModel)]='addChange'>¿Agregar cambio como crédito?</mat-checkbox>
+              </p>
+              <p *ngIf='credit > 0 && this.payment == 0'>
+                Nuevo credito {{ (totalDue - credit) | currency }}
+              </p>
+              <button mat-button type='button' (click)='onPay()' [disabled]='totalDue > (payment + payingUser?.credit)'>Pagar</button>
+            </div>
+            <div class="col-12 text-center">
+              <h6>Total crédito : {{ payingUser.credit | currency }}</h6>
+              <h6>Total pendiente : {{ payingUser.debit | currency }}</h6>
+            </div>
+          </ng-container>
+          <ng-template #loadingPayment>
+            <mat-spinner class="mx-auto"></mat-spinner>
+          </ng-template>
+          <hr>
+        </ng-container>
+        <div class="table-container">
+          <mat-table #table [dataSource]="dataSource" class='data-table' matSort>
+
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+              <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="($event ? masterToggle() : null);calculateTotalDue();calculateChange();" [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="($event ? selection.toggle(row) : null);calculateTotalDue();calculateChange();" [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="user">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <p>
+                  {{element.user.name}}
+                </p>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Price Column -->
+            <ng-container matColumnDef="price">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Precio </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <p>
+                  {{element.price | currency}}
+                </p>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Para</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <p> {{ element.date.for.toDate() | spanishDate }}</p>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                acciones
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]='row.status === "Cancelado" ? "cancelled" : ""'></mat-row>
+          </mat-table>
+          <ng-container *ngIf='!payingUser && !allFromWorkplace'>
+            <h4 class='text-center'>¡Por favor selecciona al usuario que va a pagar!</h4>
+          </ng-container>
+          <ng-container *ngIf='(payingUser && !dataSource?.data?.length) || (allFromWorkplace && !dataSource?.data?.length)'>
+            <h4 class="text-center">No hay órdenes pendientes de pago.</h4>
+          </ng-container>
+          <mat-paginator #paginator [pageSize]="20" [length]='dataSource?.data?.length' [pageSizeOptions]="[10, 20, 40, 100]">
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

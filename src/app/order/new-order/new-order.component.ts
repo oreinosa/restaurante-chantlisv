@@ -85,7 +85,6 @@ export class NewOrderComponent implements OnInit {
       products: {
         principal: products.principal.name
       },
-      tortillas: tortillas,
       price: price,
       date: {
         for: this.menu.date,
@@ -101,10 +100,7 @@ export class NewOrderComponent implements OnInit {
         flag: false
       }
     };
-    if (products.acompanamientos) {
-      let acompanamientos: string[] = products.acompanamientos.map(product => product.name);
-      order.products.acompanamientos = acompanamientos;
-    }
+
     let bebida = products.bebida;
     if (bebida) {
       order.products.bebida = bebida.name;
@@ -112,10 +108,17 @@ export class NewOrderComponent implements OnInit {
 
     if (products.principal.noSides) {
       delete order.products.acompanamientos;
+    } else {
+      if (products.acompanamientos) {
+        let acompanamientos: string[] = products.acompanamientos.map(product => product.name);
+        order.products.acompanamientos = acompanamientos;
+      }
     }
 
     if (products.principal.noTortillas) {
       delete order.tortillas;
+    } else {
+      order.tortillas = tortillas;
     }
 
     // if (this.user.credit) {

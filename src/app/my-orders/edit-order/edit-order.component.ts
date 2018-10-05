@@ -29,8 +29,8 @@ export class EditOrderComponent extends MyOrder {
 
   constructor(
     private orderService: OrderService,
-    myOrdersService: MyOrdersService,
-    router: Router,
+    public myOrdersService: MyOrdersService,
+    public router: Router,
     private route: ActivatedRoute,
     private auth: AuthService
   ) {
@@ -79,28 +79,36 @@ export class EditOrderComponent extends MyOrder {
 
   onSubmit(tortillas: number, price: number) {
     let products = this.editingOrder.products;
-    let acompanamientos: string[] = products.acompanamientos.map(product => product.name);
     let orderedBy = firebaseApp.firestore.Timestamp.fromDate(new Date());
     // orderedBy.setUTCHours(12, 0, 0);
 
     let editedOrder: Order = {
       products: {
         principal: products.principal.name,
-        acompanamientos: acompanamientos,
-        bebida: products.bebida.name,
       },
-      tortillas: tortillas,
       price: price,
       updated: orderedBy
     };
 
     if (products.principal.noSides) {
       delete editedOrder.products.acompanamientos;
+    } else {
+      if (products.acompanamientos) {
+        let acompanamientos: string[] = products.acompanamientos.map(product => product.name);
+        editedOrder.products.acompanamientos = acompanamientos;
+      }
     }
 
-    if (products.principal.noTortillas) {
+    if (products.principal.noTortillas === true) {
       delete editedOrder.tortillas;
+    } else {
+      editedOrder.tortillas = tortillas;
     }
+
+    if (products.bebida) {
+      editedOrder.products.bebida = products.bebida.name;
+    }
+
 
     let updatedUser: User;
     let previousPrice = this.order.price;

@@ -7,7 +7,7 @@ import { MyOrdersService } from '../my-orders.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationsService } from '../../notifications/notifications.service';
-import { takeUntil, tap, switchMap, map, filter } from 'rxjs/operators';
+import { takeUntil, tap, switchMap, map, filter, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -23,7 +23,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
 
   user: User;
   limitCtrl = new FormControl(0);
-  limits: number[];
+  limits: number[] = [0];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -42,22 +42,25 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
 
-    this.limits = [0, 5, 10, 30];
-
     this.auth
       .user.pipe(
         takeUntil(this.ngUnsubscribe),
-        filter(user => !!user),
-        tap(user => {
-          // console.log(user);
-          this.user = user;
-        }),
-        switchMap(() => this.limitCtrl.valueChanges),
+      )
+      .subscribe(user => {
+        console.log(user);
+        this.user = user;
+        this.limitCtrl.setValue(5);
+      });
+
+
+    this.limitCtrl
+      .valueChanges.pipe(
         takeUntil(this.ngUnsubscribe),
         tap(limit => {
           console.log('limit to ', limit);
           this.loaded = false;
         }),
+        filter(limit =>( limit > 0) && !!this.user),
         switchMap(limit => this.myOrdersService.getMyOrders(limit, this.user)),
         takeUntil(this.ngUnsubscribe),
         map(orders => orders
@@ -66,12 +69,16 @@ export class ListOrderComponent implements OnInit, OnDestroy {
         ),
         tap(orders => {
           console.log(orders);
-          if (this.dataSource.data.length) { this.notifications.show("Lista de órdenes actualizada!", "Mis órdenes", "info") }
+          // this.notifications.show("Lista de órdenes actualizada!", "Mis órdenes", "info")
+          if (orders.length > 0) {
+            this.limits = [5, 10, 30];
+          }
           this.dataSource.data = orders;
           this.myOrdersService.onAction(null);
         })
       )
       .subscribe(() => this.loaded = true);
+
   }
 
   private compare(a, b, isAsc) {

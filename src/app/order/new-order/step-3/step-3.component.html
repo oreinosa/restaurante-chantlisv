@@ -55,7 +55,7 @@
             </mat-form-field>
           </h3>
         </ng-container>
-        <ng-container *ngIf='(menu.price | calTotal:bebida:tortillas) as totalDue'>
+        <ng-container *ngIf='(menu.price | calTotal:bebida:tortillasCtrl?.value) as totalDue'>
           <ng-container *ngIf='editing && previousPrice !== totalDue; else justTotal'>
             <h5 class='text-right'>
               <i>
@@ -100,12 +100,12 @@
       Volver a menús
     </button>
     <button mat-button type='button' (click)='onBack(1)'>
-      Atras (Paso 1)
+      Atrás (Paso 1)
     </button>
     <button mat-button type='button' (click)='onBack(2)'>
-      Atras (Paso 2)
+      Atrás (Paso 2)
     </button>
-    <button mat-button type='button' (click)='onConfirm(total)' *ngIf='menu.price | calTotal:bebida:tortillas as total' [disabled]='tortillasCtrl?.invalid || !(tortillasCtrl?.value >= 0 && tortillasCtrl?.value <=4)'>
+    <button mat-button type='button' (click)='onConfirm(total)' *ngIf='menu.price | calTotal:bebida:tortillasCtrl?.value as total' [disabled]='tortillasCtrl?.invalid || !(tortillasCtrl?.value >= 0 && tortillasCtrl?.value <=4)'>
       Confirmar
     </button>
   </mat-card-actions>

@@ -1,0 +1,15 @@
+<div class="button-container">
+  <button mat-fab type='button' [matMenuTriggerFor]="menu">
+    <mat-icon>
+      menu
+    </mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item *ngFor='let action of actions' (click)='selectMode(action.action)'>
+      <mat-icon class="ml-2">
+        {{ action.icon }}
+      </mat-icon>
+      {{ action.action | capitalize }}
+    </button>
+  </mat-menu>
+</div>

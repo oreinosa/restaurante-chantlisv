@@ -20,7 +20,6 @@ export class MyOrdersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.$user = this.auth.user;
   }
 
   // ngOnDestroy() {

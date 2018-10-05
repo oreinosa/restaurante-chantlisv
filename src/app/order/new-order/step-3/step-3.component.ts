@@ -37,6 +37,7 @@ export class Step3Component implements OnInit {
   }
 
   onConfirm(total: number) {
+    console.log(total);
     this.confirm.emit({
       total: total,
       tortillas: this.tortillasCtrl.value
