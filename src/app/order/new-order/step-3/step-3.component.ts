@@ -4,6 +4,7 @@ import { OrderService } from '../../order.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Product } from '../../../shared/models/product';
 import { Menu } from '../../../shared/models/menu';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-step-3',
@@ -21,7 +22,7 @@ export class Step3Component implements OnInit {
   @Input() principal: Product;
   @Input() acompanamientos: Product[];
   @Input() bebida: Product;
-  tortillas: number = 2;
+  tortillasCtrl = new FormControl(2);
   constructor(
     private orderService: OrderService,
     private router: Router,
@@ -38,7 +39,7 @@ export class Step3Component implements OnInit {
   onConfirm(total: number) {
     this.confirm.emit({
       total: total,
-      tortillas: this.tortillas
+      tortillas: this.tortillasCtrl.value
     });
     this.onBack(4);
   }

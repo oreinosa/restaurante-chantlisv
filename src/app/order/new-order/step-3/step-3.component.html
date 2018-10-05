@@ -49,7 +49,7 @@
         <ng-container *ngIf='!principal?.noTortillas'>
           <h3 class='text-right'>
             <mat-form-field class='my-3'>
-              <input matInput type="number" placeholder="Tortillas" [(ngModel)]='tortillas' #tortillasCtrl='ngModel' required min='0' max='4'
+              <input matInput type="number" placeholder="Tortillas" [formControl]='tortillasCtrl' required min='0' max='4'
                 pattern='^[0-4]$'>
               <mat-hint style='font-size: 85%'>Máximo 4</mat-hint>
             </mat-form-field>
@@ -105,7 +105,7 @@
     <button mat-button type='button' (click)='onBack(2)'>
       Atras (Paso 2)
     </button>
-    <button mat-button type='button' (click)='onConfirm(total)' *ngIf='menu.price | calTotal:bebida:tortillas as total' [disabled]='tortillasCtrl?.invalid'>
+    <button mat-button type='button' (click)='onConfirm(total)' *ngIf='menu.price | calTotal:bebida:tortillas as total' [disabled]='tortillasCtrl?.invalid || !(tortillasCtrl?.value >= 0 && tortillasCtrl?.value <=4)'>
       Confirmar
     </button>
   </mat-card-actions>
