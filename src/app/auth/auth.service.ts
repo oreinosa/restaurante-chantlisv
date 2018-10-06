@@ -21,8 +21,8 @@ export class AuthService {
 
   private defaultLinks = [
     { label: "Menú", route: "menu", icon: "restaurant_menu" },
-    { label: "FAQs", route: "faqs", icon: "help" },
-    { label: "Contáctanos", route: "contacto", icon: "contact_phone" },
+    // { label: "FAQs", route: "faqs", icon: "help" },
+    // { label: "Contáctanos", route: "contacto", icon: "contact_phone" },
   ];
   private defaultActions = [
     { label: "Ingresar", name: "ingresar", icon: "person" },

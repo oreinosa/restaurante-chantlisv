@@ -45,6 +45,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.auth
       .user.pipe(
         takeUntil(this.ngUnsubscribe),
+        filter(user => !!user)
       )
       .subscribe(user => {
         console.log(user);
@@ -60,7 +61,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
           console.log('limit to ', limit);
           this.loaded = false;
         }),
-        filter(limit =>( limit > 0) && !!this.user),
+        filter(limit =>( limit > 0) && !!this.user && !!this.user.workplace),
         switchMap(limit => this.myOrdersService.getMyOrders(limit, this.user)),
         takeUntil(this.ngUnsubscribe),
         map(orders => orders

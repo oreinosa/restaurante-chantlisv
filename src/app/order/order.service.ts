@@ -65,6 +65,7 @@ export class OrderService {
 
   submitNewOrder(order: Order) {
     this.ordersCol = this.af.collection<Order>('orders');
+    console.log('new order ', order);
     return this.ordersCol
       .add(order)
       .then(doc => this.notificationsService.show("Orden exitosa!", 'Nueva orden', "success"));

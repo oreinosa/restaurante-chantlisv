@@ -20,6 +20,8 @@ export class PackageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   range: string;
 
+  filtersCollapsed = false;
+
   public displayedColumns = ['user', 'principal', 'acompanamientos', 'bebida', "date", 'actions'];
 
   constructor(
@@ -46,6 +48,10 @@ export class PackageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  onFiltersCollapse(){
+    this.filtersCollapsed = !this.filtersCollapsed;
   }
 
   onSelectRange(range: string) {

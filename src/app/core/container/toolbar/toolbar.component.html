@@ -9,7 +9,7 @@
     </ng-template>
     <span routerLink='' class='hover' id='app-title' *ngIf='!(overlay === "xs")'>{{ appName }}</span>
     <!-- NAV FOR LG XL -->
-    <ng-container *ngIf='(overlay === "lg" || overlay === "xl")'>
+    <ng-container *ngIf='(overlay === "md" || overlay === "lg" || overlay === "xl")'>
       <!-- LINKS -->
       <ng-container *ngFor='let link of links'>
         <ng-container *ngIf='!link?.children;else subMenuTemplate'>
@@ -80,7 +80,7 @@
     </ng-container>
 
     <!-- NAV FOR MD -->
-    <ng-container *ngIf='(overlay === "md" || overlay === "sm")'>
+    <ng-container *ngIf='(overlay === "sm")'>
       <!-- LINKS -->
       <ng-container *ngFor='let link of links'>
         <ng-container *ngIf='!link?.children;else subMenuTemplate'>

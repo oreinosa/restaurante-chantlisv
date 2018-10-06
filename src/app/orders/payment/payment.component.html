@@ -65,7 +65,7 @@
                 <input matInput type="number" placeholder='Cambio' [(ngModel)]='change' readonly>
               </mat-form-field>
               <p *ngIf='change > 0 && this.payment > 0'>
-                <mat-checkbox [(ngModel)]='addChange'>¿Agregar cambio como crédito?</mat-checkbox>
+                <mat-checkbox [formControl]='addChangeCtrl'>¿Agregar cambio como crédito?</mat-checkbox>
               </p>
               <p *ngIf='credit > 0 && this.payment == 0'>
                 Nuevo credito {{ (totalDue - credit) | currency }}
