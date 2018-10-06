@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'faq', component: FaqComponent },
   { path: "contacto", component: ContactUsComponent },
   { path: "not-found", component: NotFoundComponent },
-  { path: "", pathMatch: "full", component: WelcomeComponent },
+  { path: "", pathMatch: "full", redirectTo: 'menu'},
 ];
 
 @NgModule({

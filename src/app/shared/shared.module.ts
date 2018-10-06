@@ -37,6 +37,8 @@ import { CapitalizePipe } from "./pipes/capitalize.pipe";
 
 import { ShowImagePipe } from './pipes/show-image.pipe';
 import { SpanishDatePipe } from './pipes/spanish-date.pipe';
+import { TtdPipe } from './pipes/ttd.pipe';
+import { SortByPipe } from './pipes/sort-by.pipe';
 
 @NgModule({
   imports: [
@@ -79,6 +81,8 @@ import { SpanishDatePipe } from './pipes/spanish-date.pipe';
     SelectedPipe,
     CalTotalPipe,
     SpanishDatePipe,
+    TtdPipe,
+    SortByPipe,
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
@@ -117,6 +121,8 @@ import { SpanishDatePipe } from './pipes/spanish-date.pipe';
     SelectedPipe,
     CalTotalPipe,
     SpanishDatePipe,
+    TtdPipe,
+    SortByPipe,
   ]
 })
 export class SharedModule { }

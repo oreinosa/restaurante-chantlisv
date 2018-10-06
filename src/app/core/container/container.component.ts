@@ -87,6 +87,7 @@ export class ContainerComponent {
       });
       event.afterClosed().subscribe(result => {
         if (result) {
+          console.log(result);
           this.onAction(result);
         }
       });

@@ -17,6 +17,7 @@ import { Observable } from "rxjs";
 })
 export class CreateComponent extends Create<User> {
   user = new User();
+  password: string = '';
   // roles: Role[] = [{ id: 1, name: "Cliente" }, { id: 3, name: "Admin" }];
   roles = [
     "Admin",

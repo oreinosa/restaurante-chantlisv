@@ -9,6 +9,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AccountVerifiedComponent } from './account-verified/account-verified.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     ProfileComponent,
     AccountVerifiedComponent,
     ForgotPasswordComponent,
+    RecoverPasswordComponent,
   ],
   entryComponents: [
     LoginComponent,

@@ -118,7 +118,7 @@
           <ng-container *ngIf='!loaded'>
             <mat-spinner diameter='45' class="mx-auto mt-2"></mat-spinner>
           </ng-container>
-          <mat-paginator [length]='dataSource?.data?.length' [pageSize]='limitSubject | async'></mat-paginator>
+          <mat-paginator [length]='dataSource?.data?.length' [pageSize]='limitCtrl.value'></mat-paginator>
         </div>
       </mat-card-content>
     </mat-card>
