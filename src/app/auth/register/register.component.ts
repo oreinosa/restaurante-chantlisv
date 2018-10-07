@@ -7,6 +7,8 @@ import { Component, OnInit } from "@angular/core";
 import { MatDialogRef, MatDialog } from "@angular/material";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Workplace } from '../../shared/models/workplace';
+import { LoginComponent } from '../login/login.component';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 
 @Component({
   selector: "app-register",

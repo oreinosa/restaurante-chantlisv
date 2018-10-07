@@ -11,6 +11,8 @@ import { AuthService } from "./auth.service";
 import { MatDialog } from "@angular/material";
 import { LoginComponent } from "./login/login.component";
 import { tap } from "rxjs/operators";
+import { RegisterComponent } from "./register/register.component";
+import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 
 @Injectable({
   providedIn: "root"
@@ -38,8 +40,47 @@ export class AuthGuard implements CanActivate {
           const event = this.dialog.open(LoginComponent, {
             width: "350px"
           });
+          event.afterClosed().subscribe(result => {
+            if (result) {
+              console.log(result);
+              this.onAction(result);
+            }
+          });
         }
       })
     );
+  }
+  onAction(action: string) {
+    let component = this.actionSelection(action);
+    if (component) {
+      const event = this.dialog.open(component, {
+        width: "450px"
+      });
+      event.afterClosed().subscribe(result => {
+        if (result) {
+          console.log(result);
+          this.onAction(result);
+        }
+      });
+    }
+  }
+
+  actionSelection(action: string) {
+    let component;
+    switch (action) {
+      case "ingresar":
+        component = LoginComponent;
+        break;
+      case "registrarse":
+        component = RegisterComponent;
+        break;
+      case "restablecer-contraseña":
+        component = ForgotPasswordComponent;
+        break;
+      case "google":
+        this.auth.loginSocial(action);
+        break;
+    }
+    return component;
   }
 }

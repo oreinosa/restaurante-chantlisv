@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material';
 import { NotificationsService } from "../../notifications/notifications.service";
 import { AuthService } from "../auth.service";
 import { Login } from "../../shared/models/login";
@@ -13,6 +14,7 @@ export class LoginComponent implements OnInit {
   login: Login = new Login();
   constructor(
     public dialogRef: MatDialogRef<LoginComponent>,
+    public dialog: MatDialog,
     private auth: AuthService,
     private notifications: NotificationsService
   ) { }
